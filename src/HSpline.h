@@ -28,7 +28,7 @@ public:
 
 	~HSpline(void);
 	HSpline(const Geom_BSplineCurve &s, const HeeksColor* col);
-	HSpline(const Handle_Geom_BSplineCurve s, const HeeksColor* col);
+	HSpline(const Handle(Geom_BSplineCurve) s, const HeeksColor* col);
 	HSpline(const std::list<gp_Pnt> &points, const HeeksColor* col);
 	HSpline(const HSpline &c);
 
@@ -57,6 +57,6 @@ public:
 	bool GetEndPoint(double* pos);
 
 	void ToBiarcs(std::list<HeeksObj*> &new_spans, double tolerance)const;
-	static void ToBiarcs(const Handle_Geom_BSplineCurve s, std::list<HeeksObj*> &new_spans, double tolerance, double first_parameter, double last_parameter);
+	static void ToBiarcs(const Handle(Geom_BSplineCurve) s, std::list<HeeksObj*> &new_spans, double tolerance, double first_parameter, double last_parameter);
 	void Reverse();
 };

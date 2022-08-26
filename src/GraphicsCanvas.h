@@ -7,6 +7,8 @@
 #include "ViewPoint.h"
 #include "../interface/Observer.h"
 
+#include <memory>
+
 class CViewport
 {
 protected:
@@ -56,10 +58,12 @@ class CGraphicsCanvas: public wxGLCanvas, public CViewport, Observer
 public:
 
     CGraphicsCanvas(wxWindow* parent);
-    virtual ~CGraphicsCanvas(){};
+    virtual ~CGraphicsCanvas(){}
+
+    void SetCurrent();
 
     void OnPaint(wxPaintEvent& event);
-    void OnSize(wxSizeEvent& event);
+    void resized(wxSizeEvent& event);
 	void OnEraseBackground(wxEraseEvent& event);
     void OnMouse( wxMouseEvent& event );
 	void OnMenuEvent(wxCommandEvent& WXUNUSED(event));
@@ -91,5 +95,6 @@ public:
 	void WindowMag(wxRect &window_box);
 
 private:
+    std::unique_ptr<wxGLContext> m_context;
     DECLARE_EVENT_TABLE()
 };

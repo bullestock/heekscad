@@ -62,7 +62,7 @@ gp_Dir GetFaceNormalAtUV(const TopoDS_Face &face, double u, double v, gp_Pnt *po
 		return norm;
 	}
 	catch (Standard_Failure) {
-		Handle_Standard_Failure e = Standard_Failure::Caught();
+		Handle(Standard_Failure) e = Standard_Failure::Caught();
 		wxMessageBox(wxString(_("Error in GetFaceNormalAtUV")) + _T(": ") + Ctt(e->GetMessageString()));
 		return gp_Dir(0, 0, 1);
 	}
@@ -82,11 +82,11 @@ void DrawFace(TopoDS_Face face,void(*callbackfunc)(const double* x, const double
 {
 	double x[9], n[9];
 
-	StdPrs_ToolShadedShape SST;
+	StdPrs_ToolTriangulatedShape SST;
 
 	// Get triangulation
 	TopLoc_Location L;
-	Handle_Poly_Triangulation facing = BRep_Tool::Triangulation(face,L);
+	Handle(Poly_Triangulation) facing = BRep_Tool::Triangulation(face,L);
 	gp_Trsf tr = L;
 
 	if(facing.IsNull()){

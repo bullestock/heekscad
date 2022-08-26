@@ -369,7 +369,7 @@ bool LineArcDrawing::calculate_item(DigitizedPoint &end){
 				ClearObjectsMade();
 			}
 
-			Handle_Geom_BSplineCurve spline;
+			Handle(Geom_BSplineCurve) spline;
 			switch(spline_mode)
 			{
 				case CubicSplineMode:

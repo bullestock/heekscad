@@ -261,7 +261,7 @@ void CEdge::Blend(double radius,  bool chamfer_not_fillet){
 				for(std::list<CFace*>::iterator It = m_faces.begin(); It != m_faces.end(); It++)
 				{
 					CFace* face = *It;
-					chamfer.Add(radius, m_topods_edge, TopoDS::Face(face->Face()));
+					chamfer.Add(radius, radius, m_topods_edge, TopoDS::Face(face->Face()));
 				}
 				TopoDS_Shape new_shape = chamfer.Shape();
 				wxGetApp().AddUndoably(new CSolid(*((TopoDS_Solid*)(&new_shape)), _("Solid with edge chamfer"), *(body->GetColor()), body->GetOpacity()), NULL, NULL);

@@ -268,7 +268,7 @@ void ReadPluginsList(std::list<PluginData> &plugins)
 
 
 	wxString plugins_file = wxGetApp().GetExeFolder() + _T("/plugins.txt");
-    ifstream ifs(Ttc(plugins_file.c_str()));
+    std::ifstream ifs(Ttc(plugins_file.c_str()));
 	if(!(!ifs))
 	{
 		char s[1024] = "";

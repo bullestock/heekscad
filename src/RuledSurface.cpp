@@ -145,7 +145,7 @@ HeeksObj* CreatePipeFromProfile(const TopoDS_Wire &spine, std::list<TopoDS_Shape
 			if(new_object)pipe_shapes.push_back(new_object);
 		}
 		catch (Standard_Failure) {
-			Handle_Standard_Failure e = Standard_Failure::Caught();
+			Handle(Standard_Failure) e = Standard_Failure::Caught();
 			wxMessageBox(wxString(_("Error making pipe")) + _T(": ") + Ctt(e->GetMessageString()));
 		}
 	}
@@ -387,7 +387,7 @@ bool CreateRuledSurface(const std::list<TopoDS_Wire> &wire_list, TopoDS_Shape& s
 			shape = generator.Shape();
 		}
 		catch (Standard_Failure) {
-			Handle_Standard_Failure e = Standard_Failure::Caught();
+			Handle(Standard_Failure) e = Standard_Failure::Caught();
 			wxMessageBox(wxString(_("Error making ruled solid")) + _T(": ") + Ctt(e->GetMessageString()));
 			return false;
 		}
@@ -445,7 +445,7 @@ void CreateExtrusions(const std::list<TopoDS_Shape> &faces_or_wires, std::list<T
 		}
 	}
 	catch (Standard_Failure) {
-		Handle_Standard_Failure e = Standard_Failure::Caught();
+		Handle(Standard_Failure) e = Standard_Failure::Caught();
 		wxMessageBox(wxString(_("Error making extruded solid")) + _T(": ") + Ctt(e->GetMessageString()));
 	}
 	catch(...)
@@ -476,7 +476,7 @@ void CreateRevolutions(const std::list<TopoDS_Shape> &faces_or_wires, std::list<
 		}
 	}
 	catch (Standard_Failure) {
-		Handle_Standard_Failure e = Standard_Failure::Caught();
+		Handle(Standard_Failure) e = Standard_Failure::Caught();
 		wxMessageBox(wxString(_("Error making revolved solid")) + _T(": ") + Ctt(e->GetMessageString()));
 	}
 	catch(...)

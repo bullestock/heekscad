@@ -55,7 +55,7 @@ void PictureWindow::SetPicture(const wxBitmap& b)
 	Refresh();
 }
 
-void PictureWindow::SetPicture(const wxString& filepath, long image_type)
+void PictureWindow::SetPicture(const wxString& filepath, wxBitmapType image_type)
 {
 	std::map<wxString, wxBitmap*>::iterator FindIt = m_bitmaps.find(filepath);
 

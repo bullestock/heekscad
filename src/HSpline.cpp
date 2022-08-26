@@ -60,7 +60,7 @@ HSpline::HSpline(const Geom_BSplineCurve &s, const HeeksColor* col):EndedObject(
 	SetColor(*col);
 }
 
-HSpline::HSpline(Handle_Geom_BSplineCurve s, const HeeksColor* col):EndedObject(){
+HSpline::HSpline(Handle(Geom_BSplineCurve) s, const HeeksColor* col):EndedObject(){
 	m_spline = s;//Handle(Geom_BSplineCurve)::DownCast(s->Copy());
 	m_spline->D0(m_spline->FirstParameter(), A);
 	m_spline->D0(m_spline->LastParameter() , B);
@@ -570,7 +570,7 @@ bool HSpline::GetEndPoint(double* pos)
 	return true;
 }
 
-void HSpline::ToBiarcs(const Handle_Geom_BSplineCurve s, std::list<HeeksObj*> &new_spans, double tolerance, double first_parameter, double last_parameter)
+void HSpline::ToBiarcs(const Handle(Geom_BSplineCurve) s, std::list<HeeksObj*> &new_spans, double tolerance, double first_parameter, double last_parameter)
 {
 	new_spans_for_CreateArcs = &new_spans;
 	if(tolerance < 0.000000000000001)tolerance = 0.000000000000001;

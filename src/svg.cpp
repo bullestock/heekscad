@@ -411,7 +411,7 @@ void CSvgRead::ReadCircle(TiXmlElement *pElem)
 gp_Pnt CSvgRead::ReadStart(const char *text,gp_Pnt ppnt,bool isupper)
 {
 	double x, y;
-cout << '@' << text <<'@';
+    //std::cout << '@' << text <<'@';
 	sscanf(text, "%lf%lf", &x, &y);
 	y = -y;
 	gp_Pnt npt(x,y,0);
@@ -474,8 +474,8 @@ struct TwoPoints CSvgRead::ReadCubic(const char *text,gp_Pnt ppnt,bool isupper)
 	double x1, y1, x2, y2, x3, y3;
 	sscanf(text, "%lf%lf%lf%lf%lf%lf", &x1, &y1, &x2, &y2, &x3, &y3);
 	y1 = -y1; y2 = -y2; y3 = -y3;	
-cout << "x1=" << x1 << "y1=" << y1 << "x2=" << x2 << "y2=" << y2 << "x3=" << x3 << "y3=" << y3 << "\n";
-// All points appear to be relative to the first
+    //std::cout << "x1=" << x1 << "y1=" << y1 << "x2=" << x2 << "y2=" << y2 << "x3=" << x3 << "y3=" << y3 << "\n";
+    // All points appear to be relative to the first
 	if(!isupper)
 	{
 		x1+=ppnt.X(); y1+=ppnt.Y();
@@ -483,14 +483,14 @@ cout << "x1=" << x1 << "y1=" << y1 << "x2=" << x2 << "y2=" << y2 << "x3=" << x3 
 //		x3+=x2;	y3+=y2;
 		x2+=ppnt.X(); y2+=ppnt.Y();
 		x3+=ppnt.X(); y3+=ppnt.Y();
-cout << "x1=" << x1 << "y1=" << y1 << "x2=" << x2 << "y2=" << y2 << "x3=" << x3 << "y3=" << y3 << "\n";
+        //std::cout << "x1=" << x1 << "y1=" << y1 << "x2=" << x2 << "y2=" << y2 << "x3=" << x3 << "y3=" << y3 << "\n";
 	}
 
 	gp_Pnt pnt1(x1,y1,0);
 	retpts.pcpnt = gp_Pnt(x2,y2,0);
 	retpts.ppnt = gp_Pnt(x3,y3,0);
 
-	OnReadCubic(ppnt,pnt1,retpts.pcpnt,retpts.ppnt);
+	OnReadCubic(ppnt, pnt1, retpts.pcpnt, retpts.ppnt);
 	return retpts;
 }
 
@@ -793,7 +793,7 @@ void HeeksSvgRead::OnReadCubic(gp_Pnt s, gp_Pnt c1, gp_Pnt c2, gp_Pnt e)
 #endif
 	GeomConvert_CompCurveToBSplineCurve convert(curve);
 
-	Handle_Geom_BSplineCurve spline = convert.BSplineCurve();
+	Handle(Geom_BSplineCurve) spline = convert.BSplineCurve();
 //	Geom_BSplineCurve pspline = *((Geom_BSplineCurve*)spline.Access());
 	HSpline* new_object = new HSpline(spline, &wxGetApp().current_color);
 	ModifyByMatrix(new_object);
@@ -814,7 +814,7 @@ void HeeksSvgRead::OnReadQuadratic(gp_Pnt s, gp_Pnt c, gp_Pnt e)
 #endif
 	GeomConvert_CompCurveToBSplineCurve convert(curve);
 
-	Handle_Geom_BSplineCurve spline = convert.BSplineCurve();
+	Handle(Geom_BSplineCurve) spline = convert.BSplineCurve();
 //	Geom_BSplineCurve pspline = *((Geom_BSplineCurve*)spline.Access());
 	HSpline* new_object = new HSpline(spline, &wxGetApp().current_color);
 	ModifyByMatrix(new_object);

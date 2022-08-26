@@ -145,7 +145,6 @@
 #include <gp_Torus.hxx>
 #include <gp_Trsf.hxx>
 #include <gp_Vec.hxx>
-#include <Handle_Geom_TrimmedCurve.hxx>
 #include <IGESControl_Controller.hxx>
 #include <IGESControl_Reader.hxx>
 #include <IGESControl_Writer.hxx>
@@ -159,7 +158,7 @@
 #include <Precision.hxx>
 #include <ShapeFix_Wire.hxx>
 #include <Standard_ErrorHandler.hxx>
-#include <StdPrs_ToolShadedShape.hxx>
+#include <StdPrs_ToolTriangulatedShape.hxx>
 #include <STEPControl_Controller.hxx>
 #include <STEPControl_Reader.hxx>
 #include <STEPControl_Writer.hxx>

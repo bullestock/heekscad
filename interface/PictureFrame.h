@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <wx/gdicmn.h>
+
 // A scrolled window for showing an image.
 class PictureFrame: public wxScrolledWindow
 {   
@@ -31,7 +33,7 @@ public:
 
     void OnPaint(wxPaintEvent &event);
 	void SetPicture(const wxBitmap& b);
-	void SetPicture(const wxString& filepath, long image_type);
+	void SetPicture(const wxString& filepath, wxBitmapType image_type);
 
 private:
     DECLARE_EVENT_TABLE()

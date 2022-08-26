@@ -313,7 +313,7 @@ public:
 				config.Write(_T("OffsetShapeValue"), offset_value);
 			}
 			catch (Standard_Failure) {
-				Handle_Standard_Failure e = Standard_Failure::Caught();
+				Handle(Standard_Failure) e = Standard_Failure::Caught();
 				wxMessageBox(wxString(_("Error making offset")) + _T(": ") + Ctt(e->GetMessageString()));
 			}
 		}
@@ -425,7 +425,7 @@ static bool Cut(const std::list<TopoDS_Shape> &shapes, TopoDS_Shape& new_shape){
 		return true;
 	}
 	catch (Standard_Failure) {
-		Handle_Standard_Failure e = Standard_Failure::Caught();
+		Handle(Standard_Failure) e = Standard_Failure::Caught();
 		wxMessageBox(wxString(_("Error with cut operation")) + _T(": ") + Ctt(e->GetMessageString()));
 		return false;
 	}
@@ -446,7 +446,7 @@ static HeeksObj* Fuse(HeeksObj* s1, HeeksObj* s2){
 		return new_object;
 	}
 	catch (Standard_Failure) {
-		Handle_Standard_Failure e = Standard_Failure::Caught();
+		Handle(Standard_Failure) e = Standard_Failure::Caught();
 		wxMessageBox(wxString(_("Error with fuse operation")) + _T(": ") + Ctt(e->GetMessageString()));
 		return NULL;
 	}
@@ -471,7 +471,7 @@ static HeeksObj* Common(HeeksObj* s1, HeeksObj* s2){
 		return new_object;
 	}
 	catch (Standard_Failure) {
-		Handle_Standard_Failure e = Standard_Failure::Caught();
+		Handle(Standard_Failure) e = Standard_Failure::Caught();
 		wxMessageBox(wxString(_("Error with common operation")) + _T(": ") + Ctt(e->GetMessageString()));
 		return NULL;
 	}
@@ -736,7 +736,7 @@ void CShape::FilletOrChamferEdges(std::list<HeeksObj*> &list, double radius, boo
 					CEdge* edge = (CEdge*)(*It2);
 					for(CFace* face = (CFace*)(edge->GetFirstFace()); face; face = (CFace*)(edge->GetNextFace()))
 					{
-						chamfer.Add(radius, TopoDS::Edge(edge->Edge()), TopoDS::Face(face->Face()));
+						chamfer.Add(radius, radius, TopoDS::Edge(edge->Edge()), TopoDS::Face(face->Face()));
 					}
 				}
 				TopoDS_Shape new_shape = chamfer.Shape();
@@ -756,7 +756,7 @@ void CShape::FilletOrChamferEdges(std::list<HeeksObj*> &list, double radius, boo
 			}
 		}
 		catch (Standard_Failure) {
-			Handle_Standard_Failure e = Standard_Failure::Caught();
+			Handle(Standard_Failure) e = Standard_Failure::Caught();
 			wxMessageBox(wxString(_("Error making fillet")) + _T(": ") + Ctt(e->GetMessageString()));
 		}
 		catch(...)
@@ -801,7 +801,7 @@ bool CShape::ImportSolidsFile(const wxChar* filepath, bool undoably, std::map<in
 			int num = Reader.NbRootsForTransfer();
 			for(int i = 1; i<=num; i++)
 			{
-				Handle_Standard_Transient root = Reader.RootForTransfer(i);
+				Handle(Standard_Transient) root = Reader.RootForTransfer(i);
 				Reader.TransferEntity(root);
 				TopoDS_Shape rShape = Reader.Shape(i);
 				TopExp_Explorer ex;
@@ -861,7 +861,7 @@ bool CShape::ImportSolidsFile(const wxChar* filepath, bool undoably, std::map<in
 
 			for(int i = 1; i<=num; i++)
 			{
-				Handle_Standard_Transient root = Reader.RootForTransfer(i);
+				Handle(Standard_Transient) root = Reader.RootForTransfer(i);
 				Reader.TransferEntity(root);
 				TopoDS_Shape rShape = Reader.Shape(i);
 				shapes_readed.push_back(rShape);
@@ -1023,9 +1023,9 @@ bool CShape::ExportSolidsFile(const std::list<HeeksObj*>& objects, const wxChar*
 	else if(wf.EndsWith(_T(".brep")))
 	{
 #ifdef __WXMSW__
-		ofstream ofs(filepath);
+        std::ofstream ofs(filepath);
 #else
-		ofstream ofs(Ttc(filepath));
+		std::ofstream ofs(Ttc(filepath));
 #endif
 		for(std::list<HeeksObj*>::const_iterator It = objects.begin(); It != objects.end(); It++)
 		{

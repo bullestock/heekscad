@@ -201,7 +201,7 @@ bool DigitizedPoint::GetCircleBetween(const DigitizedPoint& d1, const DigitizedP
 	return true;
 }
 
-bool DigitizedPoint::GetCubicSpline(const DigitizedPoint& d1, const DigitizedPoint& d2, const DigitizedPoint& d3, const DigitizedPoint& d4, Handle_Geom_BSplineCurve &spline)
+bool DigitizedPoint::GetCubicSpline(const DigitizedPoint& d1, const DigitizedPoint& d2, const DigitizedPoint& d3, const DigitizedPoint& d4, Handle(Geom_BSplineCurve) &spline)
 {
 	gp_Pnt s = d1.m_point;
 	gp_Pnt e = d2.m_point;
@@ -223,7 +223,7 @@ bool DigitizedPoint::GetCubicSpline(const DigitizedPoint& d1, const DigitizedPoi
 	return true;
 }
 
-bool DigitizedPoint::GetQuarticSpline(const DigitizedPoint& d1, const DigitizedPoint& d2, const DigitizedPoint& d3, Handle_Geom_BSplineCurve &spline)
+bool DigitizedPoint::GetQuarticSpline(const DigitizedPoint& d1, const DigitizedPoint& d2, const DigitizedPoint& d3, Handle(Geom_BSplineCurve) &spline)
 {
 	gp_Pnt s = d1.m_point;
 	gp_Pnt e = d2.m_point;
@@ -244,7 +244,7 @@ bool DigitizedPoint::GetQuarticSpline(const DigitizedPoint& d1, const DigitizedP
 	return true;
 }
 
-bool DigitizedPoint::GetRationalSpline(std::list<DigitizedPoint> &spline_points, const DigitizedPoint& d4, Handle_Geom_BSplineCurve &spline)
+bool DigitizedPoint::GetRationalSpline(std::list<DigitizedPoint> &spline_points, const DigitizedPoint& d4, Handle(Geom_BSplineCurve) &spline)
 {
 	TColgp_Array1OfPnt poles(1,spline_points.size()+1);
 	int idx = 1;

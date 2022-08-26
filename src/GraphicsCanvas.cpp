@@ -25,7 +25,7 @@ CViewport::CViewport(int w, int h):m_frozen(false), m_refresh_wanted_on_thaw(fal
 }
 
 BEGIN_EVENT_TABLE(CGraphicsCanvas, wxGLCanvas)
-    EVT_SIZE(CGraphicsCanvas::OnSize)
+    EVT_SIZE(CGraphicsCanvas::resized)
 	EVT_ERASE_BACKGROUND(CGraphicsCanvas::OnEraseBackground)
     EVT_PAINT(CGraphicsCanvas::OnPaint)
     EVT_MOUSE_EVENTS(CGraphicsCanvas::OnMouse)
@@ -55,11 +55,18 @@ static int graphics_attrib_list[] = {
 
 
 CGraphicsCanvas::CGraphicsCanvas(wxWindow* parent)
-        : wxGLCanvas(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, _T("some text"), graphics_attrib_list),CViewport(0, 0)
+    : wxGLCanvas(parent, wxID_ANY, graphics_attrib_list),
+      CViewport(0, 0)
 {
+    m_context = std::make_unique<wxGLContext>(this);
 	m_render_on_front_done = false;
 
 	wxGetApp().RegisterObserver(this);
+}
+
+void CGraphicsCanvas::SetCurrent()
+{
+    wxGLCanvas::SetCurrent(*m_context);
 }
 
 void CViewport::SetViewport()
@@ -258,11 +265,7 @@ void CGraphicsCanvas::OnPaint( wxPaintEvent& WXUNUSED(event) )
     /* must always be here */
     wxPaintDC dc(this);
 
-#ifndef __WXMOTIF__
-    if (!GetContext()) return;
-#endif
-
-    SetCurrent();
+    wxGLCanvas::SetCurrent(*m_context);
 
 	glCommands();
 
@@ -272,10 +275,9 @@ void CGraphicsCanvas::OnPaint( wxPaintEvent& WXUNUSED(event) )
 	DrawFront();
 }
 
-void CGraphicsCanvas::OnSize(wxSizeEvent& event)
+void CGraphicsCanvas::resized(wxSizeEvent& event)
 {
     // this is also necessary to update the context on some platforms
-    wxGLCanvas::OnSize(event);
     int w, h;
     GetClientSize(&w, &h);
 	WidthAndHeightChanged(w, h);
@@ -361,7 +363,7 @@ void CGraphicsCanvas::OnMouse( wxMouseEvent& event )
 	if(wxGetApp().m_property_grid_validation)return;
 
 	if(event.Entering()){
-	    SetCurrent();
+        wxGLCanvas::SetCurrent(*m_context);
 		SetFocus(); // so middle wheel works
 	}
 

@@ -404,7 +404,7 @@ bool ConvertSketchToEdges(HeeksObj *object, std::list< std::vector<TopoDS_Edge> 
 	    } // End try
 	    catch(Standard_Failure)
 	    {
-	        Handle_Standard_Failure e = Standard_Failure::Caught();
+	        Handle(Standard_Failure) e = Standard_Failure::Caught();
 			wxMessageBox(wxString(_("Error converting sketch to face")) + _T(": ") + Ctt(e->GetMessageString()));
 			return false;
 	    }
@@ -463,7 +463,7 @@ bool ConvertEdgesToFaceOrWire(const std::vector<TopoDS_Edge> &edges, std::list<T
 		}
 	}
 	catch (Standard_Failure) {
-		Handle_Standard_Failure e = Standard_Failure::Caught();
+		Handle(Standard_Failure) e = Standard_Failure::Caught();
 		wxMessageBox(wxString(_("Error converting sketch to face")) + _T(": ") + Ctt(e->GetMessageString()));
 		return false;
 	}
