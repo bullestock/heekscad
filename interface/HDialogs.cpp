@@ -99,8 +99,8 @@ HControl HDialog::MakeLabelAndControl(const wxString& label, wxWindow* control, 
 {
     wxBoxSizer *sizer_horizontal = new wxBoxSizer(wxHORIZONTAL);
 	wxStaticText *static_label = new wxStaticText(this, wxID_ANY, label);
-	sizer_horizontal->Add( static_label, 0, wxRIGHT | wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL, control_border );
-	sizer_horizontal->Add( control, 1, wxLEFT | wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL, control_border );
+	sizer_horizontal->Add( static_label, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, control_border );
+	sizer_horizontal->Add( control, 1, wxLEFT | wxALIGN_CENTER_VERTICAL, control_border );
 	if(static_text)*static_text = static_label;
 
 	return HControl(sizer_horizontal, wxEXPAND | wxALL);
@@ -110,9 +110,9 @@ HControl HDialog::MakeLabelAndControl(const wxString& label, wxWindow* control1,
 {
     wxBoxSizer *sizer_horizontal = new wxBoxSizer(wxHORIZONTAL);
 	wxStaticText *static_label = new wxStaticText(this, wxID_ANY, label);
-	sizer_horizontal->Add( static_label, 0, wxRIGHT | wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL, control_border );
-	sizer_horizontal->Add( control1, 1, wxLEFT | wxRIGHT | wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL, control_border );
-	sizer_horizontal->Add( control2, 0, wxLEFT | wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL, control_border );
+	sizer_horizontal->Add( static_label, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, control_border );
+	sizer_horizontal->Add( control1, 1, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, control_border );
+	sizer_horizontal->Add( control2, 0, wxLEFT | wxALIGN_CENTER_VERTICAL, control_border );
 	if(static_text)*static_text = static_label;
 
 	return HControl(sizer_horizontal, wxEXPAND | wxALL);
@@ -128,7 +128,7 @@ HControl HDialog::MakeOkAndCancel(int orient)
     wxButton* buttonHelp = new wxButton(this, wxID_HELP, _("Help"));
 	sizerOKCancel->Add( buttonHelp, 0, wxALL, control_border );
     buttonOK->SetDefault();
-	return HControl(sizerOKCancel, wxALL | wxALIGN_RIGHT | wxALIGN_BOTTOM);
+	return HControl(sizerOKCancel, wxALL | wxALIGN_RIGHT);
 }
 
 XYZBoxes::XYZBoxes(HDialog *dlg, const wxString& label, const wxString &xstr, const wxString &ystr, const wxString &zstr):wxStaticBoxSizer(wxVERTICAL, dlg, label)

@@ -23,7 +23,8 @@ EVT_BUTTON( wxID_OK, CPluginItemDialog::OnButtonOK )
 EVT_BUTTON( wxID_CANCEL, CPluginItemDialog::OnButtonCancel )
 END_EVENT_TABLE()
 
-CPluginItemDialog::CPluginItemDialog(wxWindow *parent, const wxString& title, PluginData& pd):wxDialog(parent, wxID_ANY, title, wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
+CPluginItemDialog::CPluginItemDialog(wxWindow *parent, const wxString& title, PluginData& pd)
+    : wxDialog(parent, wxID_ANY, title, wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 {
 	m_pd = &pd;
 
@@ -38,11 +39,11 @@ CPluginItemDialog::CPluginItemDialog(wxWindow *parent, const wxString& title, Pl
     wxFlexGridSizer *gridsizer = new wxFlexGridSizer(3, 5, 5);
 	gridsizer->Add(new wxStaticText(m_panel, wxID_ANY, _("Name")), wxSizerFlags().Align(wxALIGN_CENTER_VERTICAL));
 	m_name_text_ctrl = new wxTextCtrl(m_panel, wxID_ANY, pd.name);
-	gridsizer->Add(m_name_text_ctrl, wxSizerFlags().Align(wxALIGN_CENTER_VERTICAL).Expand());
+	gridsizer->Add(m_name_text_ctrl, wxSizerFlags().Expand());
 	gridsizer->Add(new wxStaticText(m_panel, wxID_ANY, _T("")), wxSizerFlags().Align(wxALIGN_CENTER_VERTICAL));
 	gridsizer->Add(new wxStaticText(m_panel, wxID_ANY, _("File Path")), wxSizerFlags().Align(wxALIGN_CENTER_VERTICAL));
 	m_path_text_ctrl = new wxTextCtrl(m_panel, wxID_ANY, pd.path, wxDefaultPosition, wxSize(400, 0));
-	gridsizer->Add(m_path_text_ctrl, wxSizerFlags().Align(wxALIGN_CENTER_VERTICAL).Expand());
+	gridsizer->Add(m_path_text_ctrl, wxSizerFlags().Expand());
 	wxButton* browse_button = new wxButton(m_panel, ID_BUTTON_PLUGIN_BROWSE, _T("..."));
     gridsizer->Add(browse_button, wxSizerFlags().Align(wxALIGN_CENTER_VERTICAL));
 
@@ -61,7 +62,7 @@ CPluginItemDialog::CPluginItemDialog(wxWindow *parent, const wxString& title, Pl
     bottomsizer->Add( button1, 0, wxALL, 10 );
     bottomsizer->Add( button2, 0, wxALL, 10 );
 
-    mainsizer->Add( gridsizer, wxSizerFlags().Align(wxALIGN_CENTER).Border(wxALL, 10).Expand() );
+    mainsizer->Add( gridsizer, wxSizerFlags().Border(wxALL, 10).Expand() );
     mainsizer->Add( bottomsizer, wxSizerFlags().Align(wxALIGN_CENTER) );
 
     // tell frame to make use of sizer
