@@ -2,12 +2,14 @@
 
 This file describes how to build and install HeeksCAD under Unix systems.
 
+About this fork (github.com/bullestock/heekscad.git): I have built it successfully on Arch Linux as of August 2022, and the program is able to run. However, a number of wxWindows exceptions occur when using it.
+
 ## Requirements
 
 To build HeeksCAD, you need to install these requirements (with develoment files):
 
-  * OpenCASCADE or OCE (OpenCASCADE Community Edition)
-  * wxWidgets 2.8 or 3.0
+  * OpenCASCADE 7.6.0 or later
+  * wxWidgets 3.0
   * [libarea](https://github.com/Heeks/heekscad.wiki.git)
 
 ## Preparation
