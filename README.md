@@ -11,8 +11,9 @@ and include the following changes:
 
 * Compiles with OpenCASCADE 7.6.0, wxWidgets 3.2, gcc 12.2
 * Support for selecting Entry Move when creating a pocket
+* General code cleanup and modernization
 
-Note that this fork has only been tested on Linux.
+Note that they have only been tested on Linux.
 
 # Features
 
