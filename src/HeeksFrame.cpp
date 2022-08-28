@@ -1384,7 +1384,6 @@ void CFlyOutButton::OnMouse( wxMouseEvent& event )
 		m_toolbarPopup = new ToolBarPopup( this );
 		wxWindow *btn = (wxWindow*) event.GetEventObject();
 		wxPoint pos = btn->ClientToScreen( wxPoint(0,0) );
-		wxSize sz = btn->GetSize();
 #ifdef WIN32
 		m_toolbarPopup->Move(pos.x - FLYOUT_PANEL_BORDER, pos.y - 3 - FLYOUT_PANEL_BORDER);
 #else

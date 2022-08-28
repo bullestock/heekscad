@@ -715,9 +715,9 @@ void wxPGProperty::Init( const wxString& label, const wxString& name )
 {
     m_label = label;
 #ifndef __WXPYTHON__
-    if ( &name != ((wxString*)NULL) )
+    if ( !name.IsEmpty() )
 #else
-    if ( (&name != ((wxString*)NULL)) && name != wxT("_LABEL_AS_NAME") )
+    if ( !name.IsEmpty() && name != wxT("_LABEL_AS_NAME") )
 #endif
         DoSetName( name );
     else
@@ -1172,7 +1172,7 @@ void wxPGProperty::SetValueImage( wxBitmap& bmp )
 
     delete m_dataExt->m_valueBitmap;
 
-    if ( &bmp && bmp.Ok() )
+    if ( bmp.Ok() )
     {
         // Resize the image
         wxSize maxSz = GetGrid()->GetImageSize();
@@ -2451,8 +2451,7 @@ void wxPropertyGrid::OnComboItemPaint( wxPGCustomComboControl* pCc,
     if ( (flags & wxPGCC_PAINTING_CONTROL) )
         paintdata.m_choiceItem = -1;
 
-    if ( &dc )
-        dc.SetBrush(*wxWHITE_BRUSH);
+    dc.SetBrush(*wxWHITE_BRUSH);
 
     if ( rect.x >= 0 )
     {
@@ -11070,7 +11069,7 @@ void wxPGChoices::Add( const wxArrayString& arr, const wxArrayInt& arrint )
         labels.Add ( arr[i] );
     }
 
-    if ( &arrint && arrint.GetCount() )
+    if ( arrint.GetCount() )
         for ( i = 0; i < itemcount; i++ )
         {
             values.Add ( arrint[i] );

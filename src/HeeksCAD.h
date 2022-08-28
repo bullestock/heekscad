@@ -225,7 +225,7 @@ class HeeksCADapp : public wxApp, public ObjList
 		bool m_property_grid_validation;
 
 #ifndef WIN32
-		std::auto_ptr<VectorFonts>	m_pVectorFonts;	// QCAD format fonts that have been loaded.
+		std::unique_ptr<VectorFonts>	m_pVectorFonts;	// QCAD format fonts that have been loaded.
 		VectorFont   *m_pVectorFont;	// which font are we using? (NULL indicates the internal (OpenGL) font)
 		wxString m_font_paths;	// SemiColon delimited list of directories that hold font files to load.
 		double m_word_space_percentage;	// Font
@@ -234,7 +234,7 @@ class HeeksCADapp : public wxApp, public ObjList
 		double m_stl_facet_tolerance;
 
 		int m_auto_save_interval;	// In minutes
-		std::auto_ptr<CAutoSave> m_pAutoSave;
+		std::unique_ptr<CAutoSave> m_pAutoSave;
 
 		int m_icon_texture_number;
 		bool m_extrude_to_solid;
@@ -424,7 +424,7 @@ class HeeksCADapp : public wxApp, public ObjList
 		void InitialiseLocale();
 		void create_font();
 #ifndef WIN32
-		std::auto_ptr<VectorFonts>	& GetAvailableFonts(const bool force_read = false);
+		std::unique_ptr<VectorFonts> GetAvailableFonts(const bool force_read = false);
 #endif
 		void GetPluginsFromCommandLineParams(std::list<wxString> &plugins);
 		void RegisterOnBuildTexture(void(*callbackfunc)());

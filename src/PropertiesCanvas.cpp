@@ -185,12 +185,13 @@ void CPropertiesCanvas::AddProperty(Property* p, wxPGProperty* parent_prop)
 	case ChoicePropertyType:
 		{
 			wxArrayString array_string;
-			std::list< wxString >::iterator It;
-			for(It = ((PropertyChoice*)p)->m_choices.begin(); It != ((PropertyChoice*)p)->m_choices.end(); It++){
+			for (auto It = ((PropertyChoice*)p)->m_choices.begin(); It != ((PropertyChoice*)p)->m_choices.end(); It++)
+            {
 				array_string.Add(wxString(It->c_str()));
 			}
-			wxPGProperty *new_prop = wxEnumProperty(p->GetShortString(),wxPG_LABEL,array_string, ((PropertyChoice*)p)->m_initial_index);
-			if(!p->property_editable())new_prop->SetFlag(wxPG_PROP_READONLY);
+			wxPGProperty *new_prop = wxEnumProperty(p->GetShortString(), wxPG_LABEL, array_string, ((PropertyChoice*)p)->m_initial_index);
+			if (!p->property_editable())
+                new_prop->SetFlag(wxPG_PROP_READONLY);
 			Append( parent_prop, new_prop, p );
 		}
 		break;

@@ -265,7 +265,7 @@ class RS274X
 						// For polygon
 						m_degree_of_rotation = rhs.m_degree_of_rotation;
 
-						// std::auto_ptr<Bitmap>	m_pBitmap;
+						// std::unique_ptr<Bitmap>	m_pBitmap;
 					}
 					return(*this);
 				}
@@ -313,7 +313,7 @@ class RS274X
 				// For polygon
 				double m_degree_of_rotation;
 
-				std::auto_ptr<Bitmap>	m_pBitmap;
+				std::unique_ptr<Bitmap>	m_pBitmap;
 		}; // End Aperture class defintion.
 
 

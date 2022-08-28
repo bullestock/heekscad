@@ -173,7 +173,7 @@ double FastArc::GetU(double x, double y)
 
 	if(ang < a1-TOLERANCE)
 		ang += 2*M_PI;
-		double u =  fmod((a2-ang)/da,2*M_PI);
+    double u =  fmod((a2-ang)/da,2*M_PI);
 	if(u!=u)
 	{
 		int x=0;

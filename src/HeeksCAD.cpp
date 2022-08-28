@@ -410,8 +410,8 @@ bool HeeksCADapp::OnInit()
 	config.Read(_T("AutoSaveInterval"), (int *) &m_auto_save_interval, 0);
 	if (m_auto_save_interval > 0)
 	{
-		m_pAutoSave = std::auto_ptr<CAutoSave>(new CAutoSave(m_auto_save_interval));
-	} // End if - then
+		m_pAutoSave = std::make_unique<CAutoSave>(m_auto_save_interval);
+	}
 	config.Read(_T("ExtrudeToSolid"), &m_extrude_to_solid);
 	config.Read(_T("RevolveAngle"), &m_revolve_angle);
 	config.Read(_T("SolidViewMode"), (int*)(&m_solid_view_mode), 0);
@@ -461,7 +461,7 @@ bool HeeksCADapp::OnInit()
 	}
 
 #ifndef PYHEEKSCAD
-	if ((m_pAutoSave.get() != NULL) && (m_pAutoSave->AutoRecoverRequested()))
+	if (m_pAutoSave && m_pAutoSave->AutoRecoverRequested())
 	{
 		m_pAutoSave->Recover();
 	}
@@ -621,13 +621,9 @@ void HeeksCADapp::WriteConfig()
 
 }
 
-int HeeksCADapp::OnExit(){
-
-	if (m_pAutoSave.get() != NULL)
-	{
-		delete m_pAutoSave.release();
-		m_pAutoSave = std::auto_ptr<CAutoSave>(NULL);
-	}
+int HeeksCADapp::OnExit()
+{
+    m_pAutoSave.reset();
 
     WriteConfig();
 
@@ -652,7 +648,8 @@ void HeeksCADapp::SetInputMode(CInputMode *new_mode){
 	if(m_graphics_text_mode != GraphicsTextModeNone)Repaint();
 }
 
-void HeeksCADapp::FindMarkedObject(const wxPoint &point, MarkedObject* marked_object){
+void HeeksCADapp::FindMarkedObject(const wxPoint &point, MarkedObject* marked_object)
+{
 	m_current_viewport->FindMarkedObject(point, marked_object);
 }
 
@@ -1066,7 +1063,8 @@ void HeeksCADapp::OpenXMLFile(const wxChar *filepath, HeeksObj* paste_into, Heek
 	try {
 		HeeksDxfRead dxf_file(filepath, true);
 		dxf_file.DoRead(HeeksDxfRead::m_ignore_errors);
-	} catch(Standard_Failure)
+	}
+    catch (const Standard_Failure&)
 	{
 		int response = wxMessageBox(_("OpenCascade failures occured during DXF read processing.  Would you like to import again and ignore the errors?"), _("DXF Read"), wxYES_NO);
 		if (response == wxYES)
@@ -2154,7 +2152,6 @@ HeeksObj* MoveOrCopyTool::paste_before(NULL);
 void HeeksCADapp::DoMoveOrCopyDropDownMenu(wxWindow *wnd, const wxPoint &point, MarkedObject* marked_object, HeeksObj* paste_into, HeeksObj* paste_before)
 {
 	tool_index_list.clear();
-	wxPoint new_point = point;
 	wxMenu menu;
 	std::list<Tool*> f_list;
 
@@ -2460,7 +2457,8 @@ void HeeksCADapp::AddUndoably(const std::list<HeeksObj*> &list, HeeksObj* owner)
 	DoUndoable(undoable);
 }
 
-void HeeksCADapp::DeleteUndoably(HeeksObj *object){
+void HeeksCADapp::DeleteUndoably(HeeksObj *object)
+{
 	if(object == NULL)return;
 	if(!object->CanBeRemoved())return;
 	RemoveObjectTool *undoable = new RemoveObjectTool(object);
@@ -2897,51 +2895,60 @@ void on_set_ctrl_does_rotate(bool value, HeeksObj* object)
 	wxGetApp().OnInputModeHelpTextChanged();
 }
 
-void on_intersection(bool onoff, HeeksObj* object){
+void on_intersection(bool onoff, HeeksObj* object)
+{
 	wxGetApp().digitize_inters = onoff;
 #ifndef USING_RIBBON
 	wxGetApp().m_frame->m_inters_button->m_bitmap = wxBitmap(ToolImage(wxGetApp().digitize_inters ? _T("inters") : _T("intersgray")));
 #endif
 }
 
-void on_centre(bool onoff, HeeksObj* object){
+void on_centre(bool onoff, HeeksObj* object)
+{
 	wxGetApp().digitize_centre = onoff;
 #ifndef USING_RIBBON
 	wxGetApp().m_frame->m_centre_button->m_bitmap = wxBitmap(ToolImage(wxGetApp().digitize_centre ? _T("centre") : _T("centregray")));
 #endif
 }
 
-void on_end_of(bool onoff, HeeksObj* object){
+void on_end_of(bool onoff, HeeksObj* object)
+{
 	wxGetApp().digitize_end = onoff;
 #ifndef USING_RIBBON
 	wxGetApp().m_frame->m_endof_button->m_bitmap = wxBitmap(ToolImage(wxGetApp().digitize_end ? _T("endof") : _T("endofgray")));
 #endif
 }
 
-void on_mid_point(bool onoff, HeeksObj* object){
+void on_mid_point(bool onoff, HeeksObj* object)
+{
 	wxGetApp().digitize_midpoint = onoff;
 #ifndef USING_RIBBON
 	wxGetApp().m_frame->m_midpoint_button->m_bitmap = wxBitmap(ToolImage(wxGetApp().digitize_midpoint ? _T("midpoint") : _T("midpointgray")));
 #endif
 }
 
-void on_nearest(bool onoff, HeeksObj* object){
+void on_nearest(bool onoff, HeeksObj* object)
+{
 	wxGetApp().digitize_nearest = onoff;
 }
 
-void on_tangent(bool onoff, HeeksObj* object){
+void on_tangent(bool onoff, HeeksObj* object)
+{
 	wxGetApp().digitize_tangent = onoff;
 }
 
-void on_radius(double value, HeeksObj* object){
+void on_radius(double value, HeeksObj* object)
+{
 	wxGetApp().digitizing_radius = value;
 }
 
-void on_coords(bool onoff, HeeksObj* object){
+void on_coords(bool onoff, HeeksObj* object)
+{
 	wxGetApp().digitize_coords = onoff;
 }
 
-void on_relative(bool onoff, HeeksObj* object){
+void on_relative(bool onoff, HeeksObj* object)
+{
 	wxGetApp().digitize_screen = onoff;
 }
 
@@ -2952,129 +2959,155 @@ static void AddPropertyCallBack(Property* p)
 	list_for_GetOptions->push_back(p);
 }
 
-void on_set_datum_size(double value, HeeksObj* object){
+void on_set_datum_size(double value, HeeksObj* object)
+{
 	CoordinateSystem::size = value;
 	wxGetApp().Repaint();
 }
 
-void on_set_size_is_pixels(bool value, HeeksObj* object){
+void on_set_size_is_pixels(bool value, HeeksObj* object)
+{
 	CoordinateSystem::size_is_pixels = value;
 	wxGetApp().Repaint();
 }
 
-void on_sel_filter_line(bool value, HeeksObj* object){
+void on_sel_filter_line(bool value, HeeksObj* object)
+{
 	if(value)wxGetApp().m_marked_list->m_filter |= MARKING_FILTER_LINE;
 	else wxGetApp().m_marked_list->m_filter &= ~MARKING_FILTER_LINE;
 }
 
-void on_sel_filter_arc(bool value, HeeksObj* object){
+void on_sel_filter_arc(bool value, HeeksObj* object)
+{
 	if(value)wxGetApp().m_marked_list->m_filter |= MARKING_FILTER_ARC;
 	else wxGetApp().m_marked_list->m_filter &= ~MARKING_FILTER_ARC;
 }
 
-void on_sel_filter_iline(bool value, HeeksObj* object){
+void on_sel_filter_iline(bool value, HeeksObj* object)
+{
 	if(value)wxGetApp().m_marked_list->m_filter |= MARKING_FILTER_ILINE;
 	else wxGetApp().m_marked_list->m_filter &= ~MARKING_FILTER_ILINE;
 }
 
-void on_sel_filter_circle(bool value, HeeksObj* object){
+void on_sel_filter_circle(bool value, HeeksObj* object)
+{
 	if(value)wxGetApp().m_marked_list->m_filter |= MARKING_FILTER_CIRCLE;
 	else wxGetApp().m_marked_list->m_filter &= ~MARKING_FILTER_CIRCLE;
 }
 
-void on_sel_filter_point(bool value, HeeksObj* object){
+void on_sel_filter_point(bool value, HeeksObj* object)
+{
 	if(value)wxGetApp().m_marked_list->m_filter |= MARKING_FILTER_POINT;
 	else wxGetApp().m_marked_list->m_filter &= ~MARKING_FILTER_POINT;
 }
 
-void on_sel_filter_solid(bool value, HeeksObj* object){
+void on_sel_filter_solid(bool value, HeeksObj* object)
+{
 	if(value)wxGetApp().m_marked_list->m_filter |= MARKING_FILTER_SOLID;
 	else wxGetApp().m_marked_list->m_filter &= ~MARKING_FILTER_SOLID;
 }
 
-void on_sel_filter_stl_solid(bool value, HeeksObj* object){
+void on_sel_filter_stl_solid(bool value, HeeksObj* object)
+{
 	if(value)wxGetApp().m_marked_list->m_filter |= MARKING_FILTER_STL_SOLID;
 	else wxGetApp().m_marked_list->m_filter &= ~MARKING_FILTER_STL_SOLID;
 }
 
-void on_sel_filter_wire(bool value, HeeksObj* object){
+void on_sel_filter_wire(bool value, HeeksObj* object)
+{
 	if(value)wxGetApp().m_marked_list->m_filter |= MARKING_FILTER_WIRE;
 	else wxGetApp().m_marked_list->m_filter &= ~MARKING_FILTER_WIRE;
 }
 
-void on_sel_filter_face(bool value, HeeksObj* object){
+void on_sel_filter_face(bool value, HeeksObj* object)
+{
 	if(value)wxGetApp().m_marked_list->m_filter |= MARKING_FILTER_FACE;
 	else wxGetApp().m_marked_list->m_filter &= ~MARKING_FILTER_FACE;
 }
 
-void on_sel_filter_vertex(bool value, HeeksObj* object){
+void on_sel_filter_vertex(bool value, HeeksObj* object)
+{
 	if(value)wxGetApp().m_marked_list->m_filter |= MARKING_FILTER_VERTEX;
 	else wxGetApp().m_marked_list->m_filter &= ~MARKING_FILTER_VERTEX;
 }
 
-void on_sel_filter_edge(bool value, HeeksObj* object){
+void on_sel_filter_edge(bool value, HeeksObj* object)
+{
 	if(value)wxGetApp().m_marked_list->m_filter |= MARKING_FILTER_EDGE;
 	else wxGetApp().m_marked_list->m_filter &= ~MARKING_FILTER_EDGE;
 }
 
-void on_sel_filter_sketch(bool value, HeeksObj* object){
+void on_sel_filter_sketch(bool value, HeeksObj* object)
+{
 	if(value)wxGetApp().m_marked_list->m_filter |= MARKING_FILTER_SKETCH;
 	else wxGetApp().m_marked_list->m_filter &= ~MARKING_FILTER_SKETCH;
 }
 
-void on_sel_filter_image(bool value, HeeksObj* object){
+void on_sel_filter_image(bool value, HeeksObj* object)
+{
 	if(value)wxGetApp().m_marked_list->m_filter |= MARKING_FILTER_IMAGE;
 	else wxGetApp().m_marked_list->m_filter &= ~MARKING_FILTER_IMAGE;
 }
 
-void on_sel_filter_coordinate_sys(bool value, HeeksObj* object){
+void on_sel_filter_coordinate_sys(bool value, HeeksObj* object)
+{
 	if(value)wxGetApp().m_marked_list->m_filter |= MARKING_FILTER_COORDINATE_SYSTEM;
 	else wxGetApp().m_marked_list->m_filter &= ~MARKING_FILTER_COORDINATE_SYSTEM;
 }
 
-void on_sel_filter_text(bool value, HeeksObj* object){
+void on_sel_filter_text(bool value, HeeksObj* object)
+{
 	if(value)wxGetApp().m_marked_list->m_filter |= MARKING_FILTER_TEXT;
 	else wxGetApp().m_marked_list->m_filter &= ~MARKING_FILTER_TEXT;
 }
 
-void on_sel_filter_dimension(bool value, HeeksObj* object){
+void on_sel_filter_dimension(bool value, HeeksObj* object)
+{
 	if(value)wxGetApp().m_marked_list->m_filter |= MARKING_FILTER_DIMENSION;
 	else wxGetApp().m_marked_list->m_filter &= ~MARKING_FILTER_DIMENSION;
 }
 
-void on_sel_filter_ruler(bool value, HeeksObj* object){
+void on_sel_filter_ruler(bool value, HeeksObj* object)
+{
 	if(value)wxGetApp().m_marked_list->m_filter |= MARKING_FILTER_RULER;
 	else wxGetApp().m_marked_list->m_filter &= ~MARKING_FILTER_RULER;
 }
-void on_sel_filter_pad(bool value, HeeksObj* object){
+
+void on_sel_filter_pad(bool value, HeeksObj* object)
+{
 	if(value)wxGetApp().m_marked_list->m_filter |= MARKING_FILTER_PAD;
 	else wxGetApp().m_marked_list->m_filter &= ~MARKING_FILTER_PAD;
 }
 
-void on_sel_filter_part(bool value, HeeksObj* object){
+void on_sel_filter_part(bool value, HeeksObj* object)
+{
 	if(value)wxGetApp().m_marked_list->m_filter |= MARKING_FILTER_PART;
 	else wxGetApp().m_marked_list->m_filter &= ~MARKING_FILTER_PART;
 }
 
-void on_sel_filter_pocket(bool value, HeeksObj* object){
+void on_sel_filter_pocket(bool value, HeeksObj* object)
+{
 	if(value)wxGetApp().m_marked_list->m_filter |= MARKING_FILTER_POCKETSOLID;
 	else wxGetApp().m_marked_list->m_filter &= ~MARKING_FILTER_POCKETSOLID;
 }
 
-void on_dxf_make_sketch(bool value, HeeksObj* object){
+void on_dxf_make_sketch(bool value, HeeksObj* object)
+{
 	HeeksDxfRead::m_make_as_sketch = value;
 	HeeksConfig config;
 	config.Write(_T("ImportDxfAsSketches"), HeeksDxfRead::m_make_as_sketch);
 }
 
-void on_sel_dxf_read_errors(bool value, HeeksObj* object){
+void on_sel_dxf_read_errors(bool value, HeeksObj* object)
+{
 	HeeksDxfRead::m_ignore_errors = value;
 
 	HeeksConfig config;
 	config.Write(_T("IgnoreDxfReadErrors"), HeeksDxfRead::m_ignore_errors);
 }
 
-void on_dxf_read_points(bool value, HeeksObj* object){
+void on_dxf_read_points(bool value, HeeksObj* object)
+{
 	HeeksDxfRead::m_read_points = value;
 
 	HeeksConfig config;
@@ -3097,18 +3130,20 @@ void on_add_uninstanced_blocks(bool value, HeeksObj* object)
 	config.Write(_T("DxfAddUninstancedBlocks"), HeeksDxfRead::m_add_uninstanced_blocks);
 }
 
-void on_stl_facet_tolerance(double value, HeeksObj* object){
+void on_stl_facet_tolerance(double value, HeeksObj* object)
+{
 	wxGetApp().m_stl_facet_tolerance = value;
 }
 
-void on_set_auto_save_interval(int value, HeeksObj* object){
+void on_set_auto_save_interval(int value, HeeksObj* object)
+{
 	wxGetApp().m_auto_save_interval = value;
 
 	if (wxGetApp().m_auto_save_interval > 0)
 	{
-		if (wxGetApp().m_pAutoSave.get() == NULL)
+		if (!wxGetApp().m_pAutoSave)
 		{
-			wxGetApp().m_pAutoSave = std::auto_ptr<CAutoSave>(new CAutoSave( wxGetApp().m_auto_save_interval, true ));
+			wxGetApp().m_pAutoSave = std::make_unique<CAutoSave>(wxGetApp().m_auto_save_interval, true);
 		}
 		else
 		{
@@ -3117,11 +3152,7 @@ void on_set_auto_save_interval(int value, HeeksObj* object){
 	}
 	else
 	{
-		if (wxGetApp().m_pAutoSave.get() != NULL)
-		{
-			delete wxGetApp().m_pAutoSave.release();
-			wxGetApp().m_pAutoSave = std::auto_ptr<CAutoSave>(NULL);
-		}
+		wxGetApp().m_pAutoSave.reset();
 	}
 	HeeksConfig config;
 	config.Write(_T("AutoSaveInterval"), wxGetApp().m_auto_save_interval);
@@ -4569,13 +4600,13 @@ void HeeksCADapp::InitialiseLocale()
 
 #ifndef WIN32
 
-std::auto_ptr<VectorFonts>	& HeeksCADapp::GetAvailableFonts(const bool force_read /* = false */ )
+std::unique_ptr<VectorFonts> HeeksCADapp::GetAvailableFonts(const bool force_read /* = false */ )
 {
     static bool already_searched_for_vector_fonts = false;
 
     if ((already_searched_for_vector_fonts == false) || (force_read == true))
     {
-        if (m_pVectorFonts.get() == NULL)
+        if (!m_pVectorFonts)
         {
             std::vector<wxString> paths = Tokens( m_font_paths, _T(";") );
 
@@ -4585,14 +4616,14 @@ std::auto_ptr<VectorFonts>	& HeeksCADapp::GetAvailableFonts(const bool force_rea
 							NULL,
 							wxPD_APP_MODAL | wxPD_ELAPSED_TIME | wxPD_ESTIMATED_TIME | wxPD_REMAINING_TIME | wxPD_AUTO_HIDE );
 
-            int i=0;
+            int i = 0;
             for (std::vector<wxString>::const_iterator l_itPath = paths.begin(); l_itPath != paths.end(); l_itPath++)
             {
                 progress.Update(i++);
 
                 if (m_pVectorFonts.get() == NULL)
                 {
-                    m_pVectorFonts = std::auto_ptr<VectorFonts>(new VectorFonts(*l_itPath, m_word_space_percentage, m_character_space_percentage));
+                    m_pVectorFonts = std::make_unique<VectorFonts>(*l_itPath, m_word_space_percentage, m_character_space_percentage);
 					m_pVectorFonts->SetWordSpacePercentage( m_word_space_percentage );
 					m_pVectorFonts->SetCharacterSpacePercentage( m_character_space_percentage );
                 } // End if - then
@@ -4606,7 +4637,7 @@ std::auto_ptr<VectorFonts>	& HeeksCADapp::GetAvailableFonts(const bool force_rea
         already_searched_for_vector_fonts = true; // Don't keep looking for something that may not be there
     }
 
-	return(m_pVectorFonts);
+	return std::move(m_pVectorFonts);
 } // End GetAvailableFonts() method
 #endif
 

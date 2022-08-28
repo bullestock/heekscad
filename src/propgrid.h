@@ -2593,7 +2593,7 @@ public:
     wxPGChoices( const wxArrayString& labels, const wxArrayInt& values = wxPG_EMPTY_ARRAYINT )
     {
         Init();
-        Set(labels,values);
+        Set(labels, values);
     }
 
     /** Simple interface constructor. */
@@ -2699,10 +2699,7 @@ public:
     void Set( const wxArrayString& labels, const wxArrayInt& values = wxPG_EMPTY_ARRAYINT )
     {
         Free();
-        if ( &values )
-            Add(labels,values);
-        else
-            Add(labels);
+        Add(labels, values);
     }
 
     // Creates exclusive copy of current choices

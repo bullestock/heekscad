@@ -775,10 +775,7 @@ wxSystemColourPropertyClass::wxSystemColourPropertyClass( const wxString& label,
 {
     wxPG_INIT_REQUIRED_TYPE(wxColourPropertyValue)
 
-    if ( &value )
-        Init(value.m_type,value.m_colour);
-    else
-        Init(0,*wxBLACK);
+    Init(value.m_type,value.m_colour);
 
     DoSetValue( &m_value );
 }
@@ -789,10 +786,7 @@ wxSystemColourPropertyClass::wxSystemColourPropertyClass( const wxString& label,
     const wxColourPropertyValue& value )
     : wxEnumPropertyClass( label, name, labels, values, choicesCache )
 {
-    if ( &value )
-        Init(value.m_type,value.m_colour);
-    else
-        Init(wxPG_COLOUR_CUSTOM,*wxBLACK);
+    Init(value.m_type,value.m_colour);
 }
 
 
@@ -1473,15 +1467,8 @@ wxMultiChoicePropertyClass::~wxMultiChoicePropertyClass()
 
 void wxMultiChoicePropertyClass::SetValueI( const wxArrayInt& arr )
 {
-    if ( &arr )
-    {
-        m_value_wxArrayInt = arr;
-        GenerateValueAsString();
-    }
-    else
-    {
-        m_display = wxEmptyString;
-    }
+    m_value_wxArrayInt = arr;
+    GenerateValueAsString();
 }
 
 void wxMultiChoicePropertyClass::DoSetValue( wxPGVariant value )

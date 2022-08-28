@@ -840,14 +840,11 @@ wxEnumPropertyClass::wxEnumPropertyClass ( const wxString& label, const wxString
 {
     m_index = 0;
 
-    if ( &labels )
-    {
-        wxPGChoices choices(labels,values);
-        m_choices = choices.ExtractData();
+    wxPGChoices choices(labels, values);
+    m_choices = choices.ExtractData();
 
-        if ( GetItemCount() )
-            wxEnumPropertyClass::DoSetValue( (long)value );
-    }
+    if ( GetItemCount() )
+        wxEnumPropertyClass::DoSetValue( (long)value );
 }
 
 wxEnumPropertyClass::wxEnumPropertyClass ( const wxString& label, const wxString& name,
@@ -1192,14 +1189,11 @@ wxFlagsPropertyClass::wxFlagsPropertyClass ( const wxString& label, const wxStri
     m_value = 0;
     m_oldChoicesData = (wxPGChoicesData*) NULL;
 
-    if ( &labels )
-    {
-        m_choices.Set(labels,values);
+    m_choices.Set(labels,values);
 
-        wxASSERT( GetItemCount() );
+    wxASSERT( GetItemCount() );
 
-        DoSetValue( (long)value );
-    }
+    DoSetValue( (long)value );
 }
 
 wxFlagsPropertyClass::wxFlagsPropertyClass ( const wxString& label, const wxString& name,

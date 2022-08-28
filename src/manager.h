@@ -420,7 +420,7 @@ public:
     {
         long fl = m_windowStyle | wxPG_HIDE_CATEGORIES;
         if ( enable ) fl = m_windowStyle & ~(wxPG_HIDE_CATEGORIES);
-        SetWindowStyleFlag(m_windowStyle);
+        SetWindowStyleFlag(m_windowStyle); //!! this should use fl, not m_windowStyle
         return true;
     }
 

@@ -508,10 +508,8 @@ void CTreeCanvas::OnLabelLeftDown(HeeksObj* object, wxMouseEvent& event)
 		// find most recently marked sibling
 		std::list<HeeksObj*> &marked = wxGetApp().m_marked_list->list();
 		HeeksObj* recently_marked_sibling = NULL;
-		bool recent_first = false;
 		for(std::list<HeeksObj*>::reverse_iterator It = marked.rbegin(); It != marked.rend(); It++)
 		{
-			if(*It == object)recent_first = true;
 			if(sibling_set.find(*It) != sibling_set.end())
 			{
 				recently_marked_sibling = *It;
@@ -797,7 +795,7 @@ void CTreeCanvas::Render(bool just_for_calculation)
 	m_max_xpos = 0;
 
 	HeeksObj* prev_object = NULL;
-	bool prev_object_expanded = NULL;
+	bool prev_object_expanded = false;
 	HeeksObj* object = wxGetApp().GetFirstChild();
 
 	while(object)
