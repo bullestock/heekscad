@@ -1,8 +1,4 @@
 project( heekscad-translations )
-cmake_minimum_required( VERSION 2.6 )
-
-#foreach ( _lang de fr it sk )
-#  add_custom_command ( OUTPUT
 
 # Adapted from http://techbase.kde.org/Development/Tutorials/Localization/i18n_Build_Systems#Compiling_and_installing_message_catalogs
 

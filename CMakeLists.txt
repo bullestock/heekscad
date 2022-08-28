@@ -1,31 +1,18 @@
 project( HeeksCAD )
-cmake_minimum_required( VERSION 2.6 )
+cmake_minimum_required( VERSION 3.0 )
 
 add_definitions ( -Wall )
 
 find_package( wxWidgets REQUIRED COMPONENTS base core gl )
 
-#set additionnal CMake module path
+# set additional CMake module path
 set( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
-#find OCE or OpenCASCADE
+# find OpenCASCADE
 set( CASCADE_LIBS TKernel )
-if( UNIX )
-  set( OCE_DIR "/usr/local/share/cmake/" )
-else()
-  set( OCE_DIR "c:/OCE-0.3.0/share/cmake" )
-endif()
-find_package ( OCE )
-if( ${OCE_FOUND} )
-  add_definitions ( -DHAVE_CONFIG_H )
-  set( OpenCASCADE_LIBRARIES ${CASCADE_LIBS} )
-  set( OpenCASCADE_INCLUDE_DIR ${OCE_INCLUDE_DIRS} )
-else() #look for OpenCASCADE
-  find_package ( OpenCASCADE REQUIRED COMPONENTS ${CASCADE_LIBS} )
-endif()
+find_package( OpenCASCADE REQUIRED COMPONENTS ${CASCADE_LIBS} )
 
-
-#find libarea
+# find libarea
 find_package( libarea REQUIRED )
 
 if( APPLE )
@@ -65,5 +52,5 @@ message(STATUS "LIB_INSTALL_DIR: " ${LIB_INSTALL_DIR})
 add_subdirectory( interface )
 add_subdirectory( tinyxml )
 add_subdirectory( translations )
-add_subdirectory( src )  #needs libraries from other subdirs, so it goes last
+add_subdirectory( src )  # needs libraries from other subdirs, so it goes last
 

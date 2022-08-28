@@ -3,6 +3,17 @@ HeeksCAD is an open source, CAD application based on OpenCASCADE
 Best known as the CAD in HeeksCNC ( CAD/CAM software )
 see http://sites.google.com/site/heekscad/
 
+# About this fork
+
+This fork (https://github.com/bullestock/heekscad/) and the associated HeeksCNC fork
+are based on the original at https://github.com/Heeks/heekscad
+and include the following changes:
+
+* Compiles with OpenCASCADE 7.6.0, wxWidgets 3.2, gcc 12.2
+* Support for selecting Entry Move when creating a pocket
+
+Note that this fork has only been tested on Linux.
+
 # Features
 
 * Import solid models from STEP and IGES files;

@@ -1,5 +1,4 @@
 project( heekscad )
-cmake_minimum_required( VERSION 2.6 )
 
 add_definitions ( -Wall -DUSE_GENERIC_TREECTRL -DHEEKSCAD -DUNICODE -DTIXML_USE_STL )
 

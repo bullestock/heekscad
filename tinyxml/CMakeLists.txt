@@ -1,7 +1,5 @@
 project( heekstinyxml )
 
-cmake_minimum_required( VERSION 2.6 )
-
 add_definitions( -Wall -DHEEKSCAD -DUNICODE -DTIXML_USE_STL )
 
 include_directories (
