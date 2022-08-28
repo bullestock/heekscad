@@ -460,7 +460,7 @@ class RS274X
                                             const gp_Pnt & vector_2_end_point,
                                             const double minimum_angle );
 
-		struct traces_intersect : std::unary_function< const Trace &, bool >
+		struct traces_intersect
 		{
 			traces_intersect( const Trace & trace ) : m_trace(trace) { }
 

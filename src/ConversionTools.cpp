@@ -154,7 +154,7 @@ static gp_Pnt GetEnd(const TopoDS_Edge &edge)
     return(PE);
 }
 
-struct EdgeComparison : public std::binary_function<const TopoDS_Edge &, const TopoDS_Edge &, bool >
+struct EdgeComparison
 {
     EdgeComparison( const TopoDS_Edge & edge )
     {
@@ -402,7 +402,7 @@ bool ConvertSketchToEdges(HeeksObj *object, std::list< std::vector<TopoDS_Edge> 
 					}
             }
 	    } // End try
-	    catch(Standard_Failure)
+	    catch (const Standard_Failure&)
 	    {
 	        Handle(Standard_Failure) e = Standard_Failure::Caught();
 			wxMessageBox(wxString(_("Error converting sketch to face")) + _T(": ") + Ctt(e->GetMessageString()));
@@ -432,12 +432,11 @@ bool SketchToWires(HeeksObj* sketch, std::list<TopoDS_Wire> &wire_list)
     if (!ConvertSketchToEdges(sketch, edges_list))
         return false;
 
-	for(std::list< std::vector<TopoDS_Edge> >::iterator It = edges_list.begin(); It != edges_list.end(); It++)
-	{
-		std::vector<TopoDS_Edge> &edges = *It;
-		wire_list.push_back(EdgesToWire(edges));
-	}
-	return true;
+    for (const auto& edges : edges_list)
+    {
+        wire_list.push_back(EdgesToWire(edges));
+    }
+    return true;
 }
 
 bool ConvertEdgesToFaceOrWire(const std::vector<TopoDS_Edge> &edges, std::list<TopoDS_Shape> &face_or_wire, bool face_not_wire)
@@ -454,20 +453,23 @@ bool ConvertEdgesToFaceOrWire(const std::vector<TopoDS_Edge> &edges, std::list<T
 		if(face_not_wire)
 		{
 			BRepBuilderAPI_MakeFace make_face(wire);
-			if(make_face.IsDone() == Standard_False)face_or_wire.push_back(wire);
-			else face_or_wire.push_back(make_face.Face());
+			if(make_face.IsDone() == Standard_False)
+                face_or_wire.push_back(wire);
+			else
+                face_or_wire.push_back(make_face.Face());
 		}
 		else
 		{
 			face_or_wire.push_back(wire);
 		}
 	}
-	catch (Standard_Failure) {
+	catch (const Standard_Failure&)
+    {
 		Handle(Standard_Failure) e = Standard_Failure::Caught();
 		wxMessageBox(wxString(_("Error converting sketch to face")) + _T(": ") + Ctt(e->GetMessageString()));
 		return false;
 	}
-	catch(...)
+	catch (...)
 	{
 		wxMessageBox(_("Fatal Error converting sketch to face"));
 		return false;

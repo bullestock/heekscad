@@ -662,7 +662,7 @@ CxfFont::CxfFont( const wxChar *p_szFile, const double word_space_percentage, co
 	}
 }
 
-struct LineEnding : public std::unary_function< char, bool >
+struct LineEnding
 {
 	bool operator()( const char character )
 	{
