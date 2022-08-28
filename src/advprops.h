@@ -179,12 +179,12 @@ WX_PG_DECLARE_CUSTOM_COLOUR_PROPERTY_USES_WXCOLOUR_WITH_DECL(wxColourProperty,WX
 extern WXDLLIMPEXP_PG wxPGProperty* wxMultiChoiceProperty(const wxString& label,
                                                           const wxString& name,
                                                           const wxArrayString& choices = wxArrayString(),
-                                                          const wxArrayInt& value = wxPG_EMPTY_ARRAYINT);
+                                                          const wxArrayInt& value = wxArrayInt());
 
 extern WXDLLIMPEXP_PG wxPGProperty* wxMultiChoiceProperty(const wxString& label,
                                                           const wxString& name,
                                                           const wxPGChoices& choices,
-                                                          const wxArrayInt& value = wxPG_EMPTY_ARRAYINT);
+                                                          const wxArrayInt& value = wxArrayInt());
 
 extern WXDLLIMPEXP_PG wxPGProperty* wxMultiChoiceProperty(const wxString& label,
                                                           const wxString& name,
@@ -195,13 +195,7 @@ extern WXDLLIMPEXP_PG wxPGProperty* wxMultiChoiceProperty(const wxString& label,
 extern WXDLLIMPEXP_PG wxPGProperty* wxMultiChoiceProperty(const wxString& label,
                                                           const wxString& name = wxPG_LABEL,
                                                           const wxArrayString& choices = wxArrayString(),
-                                                    // This crazyness is needed for Python 2.3 (which uses
-                                                    // VC6) compatibility.
-                                                    #ifndef SWIG
-                                                          const wxArrayInt& value = (*((wxArrayInt*)NULL)));
-                                                    #else
                                                           const wxArrayInt& value = wxArrayInt());
-                                                    #endif
 
 #endif
 

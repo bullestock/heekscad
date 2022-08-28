@@ -781,13 +781,13 @@ wxPGProperty* wxEnumProperty( const wxString& label, const wxString& name, const
 wxPGProperty* wxEnumProperty( const wxString& label, const wxString& name,
     const wxArrayString& labels, const wxArrayInt& values, int value )
 {
-    return new wxEnumPropertyClass(label,name,labels,values,value);
+    return new wxEnumPropertyClass(label, name, labels, values, value);
 }
 
 wxPGProperty* wxEnumProperty( const wxString& label, const wxString& name,
     const wxArrayString& labels, int value )
 {
-    return new wxEnumPropertyClass (label,name,labels,*((const wxArrayInt*)NULL),value);
+    return new wxEnumPropertyClass (label, name, labels, wxArrayInt(), value);
 }
 
 wxPGProperty* wxEnumProperty( const wxString& label, const wxString& name,
@@ -836,7 +836,8 @@ wxEnumPropertyClass::wxEnumPropertyClass ( const wxString& label, const wxString
 }
 
 wxEnumPropertyClass::wxEnumPropertyClass ( const wxString& label, const wxString& name,
-    const wxArrayString& labels, const wxArrayInt& values, int value ) : wxBaseEnumPropertyClass(label,name)
+                                           const wxArrayString& labels, const wxArrayInt& values, int value )
+    : wxBaseEnumPropertyClass(label,name)
 {
     m_index = 0;
 
@@ -965,7 +966,7 @@ wxPGProperty* wxEditEnumProperty( const wxString& label, const wxString& name,
 wxPGProperty* wxEditEnumProperty( const wxString& label, const wxString& name,
     const wxArrayString& labels, const wxString& value )
 {
-    return new wxEditEnumPropertyClass(label,name,labels,*((const wxArrayInt*)NULL),value);
+    return new wxEditEnumPropertyClass(label, name, labels, wxArrayInt(), value);
 }
 
 wxPGProperty* wxEditEnumProperty( const wxString& label, const wxString& name,
@@ -1068,19 +1069,19 @@ wxPGProperty* wxFlagsProperty( const wxString& label, const wxString& name, cons
 }
 
 wxPGProperty* wxFlagsProperty( const wxString& label, const wxString& name,
-    const wxArrayString& labels, const wxArrayInt& values, int value )
+                               const wxArrayString& labels, const wxArrayInt& values, int value )
 {
     return new wxFlagsPropertyClass(label,name,labels,values,value);
 }
 
 wxPGProperty* wxFlagsProperty( const wxString& label, const wxString& name,
-    const wxArrayString& labels, int value )
+                               const wxArrayString& labels, int value )
 {
-    return new wxFlagsPropertyClass(label,name,labels,*((const wxArrayInt*)NULL),value);
+    return new wxFlagsPropertyClass(label, name, labels, wxArrayInt(), value);
 }
 
 wxPGProperty* wxFlagsProperty( const wxString& label, const wxString& name,
-    wxPGChoices& constants, int value )
+                               wxPGChoices& constants, int value )
 {
     return new wxFlagsPropertyClass(label,name,constants,value);
 }

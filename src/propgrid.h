@@ -409,19 +409,8 @@ extern WXDLLIMPEXP_PG const wxChar *wxPropertyGridNameStr;
     @{
 */
 
-#if wxPG_PGVARIANT_IS_VARIANT
-    #define wxPG_EMPTY_ARRAYINT     wxArrayInt()
-    #define wxPG_EMPTY_ARRAYSTRING  wxArrayString()
-#elif !defined(SWIG)
-    #define wxPG_EMPTY_ARRAYINT     (*((wxArrayInt*)NULL))
-    #define wxPG_EMPTY_ARRAYSTRING  (*((wxArrayString*)NULL))
-#else
-    #define wxPG_EMPTY_ARRAYINT     wxArrayInt_wxPG_EMPTY
-    #define wxPG_EMPTY_ARRAYSTRING  wxArrayString_wxPG_EMPTY
-#endif
-
 #if !defined(SWIG)
-    #define wxPG_LABEL              (*((wxString*)NULL))  // Used to tell wxPGProperty to use label as name as well.
+    #define wxPG_LABEL              wxString()  // Used to tell wxPGProperty to use label as name as well.
     #define wxPG_NULL_BITMAP        wxNullBitmap
     #define wxPG_COLOUR_BLACK       (*wxBLACK)
 #else
@@ -2232,7 +2221,7 @@ public:
     /** Sets new set of choices for property.
     */
     inline bool SetChoices( const wxArrayString& labels,
-                            const wxArrayInt& values = wxPG_EMPTY_ARRAYINT );
+                            const wxArrayInt& values = wxArrayInt() );
 
     /** Set max length of text editor.
     */
@@ -2590,7 +2579,7 @@ public:
     }
 
     /** Constructor. */
-    wxPGChoices( const wxArrayString& labels, const wxArrayInt& values = wxPG_EMPTY_ARRAYINT )
+    wxPGChoices( const wxArrayString& labels, const wxArrayInt& values = wxArrayInt() )
     {
         Init();
         Set(labels, values);
@@ -2696,7 +2685,7 @@ public:
 #endif // SWIG
 
     /** Version that works with wxArrayString and wxArrayInt. */
-    void Set( const wxArrayString& labels, const wxArrayInt& values = wxPG_EMPTY_ARRAYINT )
+    void Set( const wxArrayString& labels, const wxArrayInt& values = wxArrayInt() )
     {
         Free();
         Add(labels, values);
@@ -3742,7 +3731,7 @@ public:
 #if !wxPG_PGVARIANT_IS_VARIANT
     wxPG_PYTHON_STATIC inline const wxArrayInt& GetPropertyValueAsArrayInt( wxPGId id ) wxPG_GETVALUE_CONST
     {
-        wxPG_PROP_ID_GETPROPVAL_CALL_PROLOG_RETVAL(wxT("wxArrayInt"), wxPG_EMPTY_ARRAYINT)
+        wxPG_PROP_ID_GETPROPVAL_CALL_PROLOG_RETVAL(wxT("wxArrayInt"), wxArrayInt())
         return wxPGVariantToArrayInt(p->DoGetValue());
     }
 #else
@@ -6323,7 +6312,7 @@ public:
        point to the same memory (*only* if acceptLabelsAsId=true).
     */
     static wxPGChoices* CreateChoicesArray(const wxArrayString& labels,
-                                           const wxArrayInt& values = wxPG_EMPTY_ARRAYINT,
+                                           const wxArrayInt& values = wxArrayInt(),
                                            bool acceptLabelsAsId = false);
 
     /* Creates choices for labels and values in wxPGChoices, or returns existing
@@ -7112,7 +7101,7 @@ public:
     */
     void AddChoices(wxPGChoicesId choicesId,
                     const wxArrayString& choiceLabels,
-                    const wxArrayInt& choiceValues = wxPG_EMPTY_ARRAYINT);
+                    const wxArrayInt& choiceValues = wxArrayInt());
 
     /** Appends a property under current parent.
         \param classname
@@ -7148,8 +7137,8 @@ public:
                          const wxString& value = wxEmptyString,
                          const wxString& attributes = wxEmptyString,
                          wxPGChoicesId choicesId = (wxPGChoicesId)0,
-                         const wxArrayString& choiceLabels = wxPG_EMPTY_ARRAYSTRING,
-                         const wxArrayInt& choiceValues = wxPG_EMPTY_ARRAYINT);
+                         const wxArrayString& choiceLabels = wxArrayString(),
+                         const wxArrayInt& choiceValues = wxArrayInt());
 
     /** Appends a property under current parent. Works just as
         AppendByClass, except accepts value type name instead of
@@ -7165,8 +7154,8 @@ public:
                         const wxString& value = wxEmptyString,
                         const wxString& attributes = wxEmptyString,
                         wxPGChoicesId choicesId = (wxPGChoicesId)0,
-                        const wxArrayString& choiceLabels = wxPG_EMPTY_ARRAYSTRING,
-                        const wxArrayInt& choiceValues = wxPG_EMPTY_ARRAYINT);
+                        const wxArrayString& choiceLabels = wxArrayString(),
+                        const wxArrayInt& choiceValues = wxArrayInt());
 
     /** Returns id of parent property for which children can currently be added. */
     inline wxPGId GetCurrentParent() const

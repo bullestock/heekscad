@@ -11345,7 +11345,7 @@ IMPLEMENT_GET_VALUE(void,void*,VoidPtr,NULL)
 #endif
 
 #if !wxPG_PGVARIANT_IS_VARIANT
-    IMPLEMENT_GET_VALUE(wxArrayString,const wxArrayString&,ArrayString,*((wxArrayString*)NULL))
+  IMPLEMENT_GET_VALUE(wxArrayString,const wxArrayString&,ArrayString, wxArrayString())
 #endif
 
 // wxObject is different than others.
