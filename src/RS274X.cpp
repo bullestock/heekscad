@@ -14,6 +14,7 @@
 #include "ConversionTools.h"
 #include "Sketch.h"
 
+#include <memory>
 #include <sstream>
 #include <fstream>
 #include <string>
@@ -2372,7 +2373,7 @@ const RS274X::Bitmap *RS274X::Aperture::GetBitmap()
 	{
 		case eCircular:
 		{
-			m_pBitmap = std::unique_ptr<Bitmap>(new Bitmap( BoundingBox() ));
+			m_pBitmap = std::make_unique<Bitmap>( BoundingBox() );
 
 			// We need to fill in a solid circle.  Start from the centre and a small radius
 			// and run around the circle marking pixels black.  Then increase the radius
@@ -2398,7 +2399,7 @@ const RS274X::Bitmap *RS274X::Aperture::GetBitmap()
 
 		case eRectangular:
 		{
-			m_pBitmap = std::unique_ptr<Bitmap>(new Bitmap( BoundingBox() ));
+			m_pBitmap = std::make_unique<Bitmap>( BoundingBox() );
 
 			for (double x=-1.0 * XAxisOutsideDimension() / 2.0; x< +1.0 * XAxisOutsideDimension() / 2.0; x += Bitmap::MMPerPixel())
 			{
@@ -2413,7 +2414,7 @@ const RS274X::Bitmap *RS274X::Aperture::GetBitmap()
 
 		default:
 			printf("Unsupported aperture shape found\n");
-			m_pBitmap = std::unique_ptr<Bitmap>(new Bitmap( BoundingBox() ));
+			m_pBitmap = std::make_unique<Bitmap>( BoundingBox() );
 			return(m_pBitmap.get());
 	} // End switch
 }
