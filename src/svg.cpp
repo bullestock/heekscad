@@ -290,6 +290,8 @@ void CSvgRead::ReadRect(TiXmlElement *pElem)
 	gp_Pnt p4(x,y+height,0);
 
 	//TODO: add rounded rectangle support
+    (void) rx;
+    (void) ry;
 
 	OnReadLine(p1,p2);
 	OnReadLine(p2,p3);

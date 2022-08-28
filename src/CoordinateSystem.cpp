@@ -1436,28 +1436,29 @@ void CoordinateSystem::AxesToAngles(const gp_Dir &x, const gp_Dir &y, double &v_
 
     int i,j,k,h,n,s,f;
     EulGetOrd(order,i,j,k,h,n,s,f);
+    (void) h;
     if (s==1) {
-	double sy = sqrt(M[i][j]*M[i][j] + M[i][k]*M[i][k]);
-	if (sy > 16*FLT_EPSILON) {
-	    t_angle = atan2(M[i][j], M[i][k]);
-	    v_angle = atan2(sy, M[i][i]);
-	    h_angle = atan2(M[j][i], -M[k][i]);
-	} else {
-	    t_angle = atan2(-M[j][k], M[j][j]);
-	    v_angle = atan2(sy, M[i][i]);
-	    h_angle = 0;
-	}
+        double sy = sqrt(M[i][j]*M[i][j] + M[i][k]*M[i][k]);
+        if (sy > 16*FLT_EPSILON) {
+            t_angle = atan2(M[i][j], M[i][k]);
+            v_angle = atan2(sy, M[i][i]);
+            h_angle = atan2(M[j][i], -M[k][i]);
+        } else {
+            t_angle = atan2(-M[j][k], M[j][j]);
+            v_angle = atan2(sy, M[i][i]);
+            h_angle = 0;
+        }
     } else {
-	double cy = sqrt(M[i][i]*M[i][i] + M[j][i]*M[j][i]);
-	if (cy > 16*DBL_EPSILON) {
-	    t_angle = atan2(M[k][j], M[k][k]);
-	    v_angle = atan2(-M[k][i], cy);
-	    h_angle = atan2(M[j][i], M[i][i]);
-	} else {
-	    t_angle = atan2(-M[j][k], M[j][j]);
-	    v_angle = atan2(-M[k][i], cy);
-	    h_angle = 0;
-	}
+        double cy = sqrt(M[i][i]*M[i][i] + M[j][i]*M[j][i]);
+        if (cy > 16*DBL_EPSILON) {
+            t_angle = atan2(M[k][j], M[k][k]);
+            v_angle = atan2(-M[k][i], cy);
+            h_angle = atan2(M[j][i], M[i][i]);
+        } else {
+            t_angle = atan2(-M[j][k], M[j][j]);
+            v_angle = atan2(-M[k][i], cy);
+            h_angle = 0;
+        }
     }
     if (n==1) {t_angle = -t_angle; v_angle = - v_angle; h_angle = -h_angle;}
     if (f==1) {double t = t_angle; t_angle = h_angle; h_angle = t;}

@@ -369,6 +369,9 @@ enum
 #define __PAINT_DEBUGGING__         0
 #define __MOUSE_DEBUGGING__         0
 
+// static
+wxArrayInt wxPropertyContainerMethods::m_empty_int_array;
+wxArrayString wxPropertyContainerMethods::m_empty_string_array;
 
 // -----------------------------------------------------------------------
 
@@ -2662,8 +2665,8 @@ wxWindow* wxPGChoiceEditor::CreateControlsBase( wxPropertyGrid* propGrid,
     else
         cb->SetSelection( -1 );
 
-	if ( property->HasFlag(wxPG_PROP_READONLY) )
-		cb->Disable();
+    if ( property->HasFlag(wxPG_PROP_READONLY) )
+        cb->Disable();
 
 #ifdef __WXMSW__
     cb->Show();
@@ -5170,7 +5173,6 @@ wxString& wxPropertyGrid::CreateEscapeSequences( wxString& dst_str, wxString& sr
     }
 
     wxString::const_iterator i = src_str.begin();
-    wxChar prev_a = wxT('\0');
 
     dst_str.clear();
 
@@ -5209,8 +5211,6 @@ wxString& wxPropertyGrid::CreateEscapeSequences( wxString& dst_str, wxString& sr
                 dst_str << a;
             }
         }
-
-        prev_a = a;
     }
     return dst_str;
 }
@@ -11345,7 +11345,7 @@ IMPLEMENT_GET_VALUE(void,void*,VoidPtr,NULL)
 #endif
 
 #if !wxPG_PGVARIANT_IS_VARIANT
-  IMPLEMENT_GET_VALUE(wxArrayString,const wxArrayString&,ArrayString, wxArrayString())
+  IMPLEMENT_GET_VALUE(wxArrayString,const wxArrayString&,ArrayString, m_empty_string_array)
 #endif
 
 // wxObject is different than others.

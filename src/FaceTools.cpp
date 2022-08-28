@@ -61,9 +61,9 @@ gp_Dir GetFaceNormalAtUV(const TopoDS_Face &face, double u, double v, gp_Pnt *po
 		if(face.Orientation()==TopAbs_REVERSED) norm.Reverse();
 		return norm;
 	}
-	catch (Standard_Failure) {
-		Handle(Standard_Failure) e = Standard_Failure::Caught();
-		wxMessageBox(wxString(_("Error in GetFaceNormalAtUV")) + _T(": ") + Ctt(e->GetMessageString()));
+	catch (const Standard_Failure& e)
+    {
+		wxMessageBox(wxString(_("Error in GetFaceNormalAtUV")) + _T(": ") + Ctt(e.GetMessageString()));
 		return gp_Dir(0, 0, 1);
 	}
 	catch (const char* str)
