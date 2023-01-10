@@ -312,9 +312,9 @@ public:
 				wxGetApp().DeleteUndoably(shape_for_tools);
 				config.Write(_T("OffsetShapeValue"), offset_value);
 			}
-			catch (Standard_Failure) {
-				Handle(Standard_Failure) e = Standard_Failure::Caught();
-				wxMessageBox(wxString(_("Error making offset")) + _T(": ") + Ctt(e->GetMessageString()));
+			catch (const Standard_Failure& e)
+            {
+                wxMessageBox(wxString(_("Error making offset")) + _T(": ") + Ctt(e.GetMessageString()));
 			}
 		}
 	}
@@ -424,9 +424,9 @@ static bool Cut(const std::list<TopoDS_Shape> &shapes, TopoDS_Shape& new_shape){
 		new_shape = current_shape;
 		return true;
 	}
-	catch (Standard_Failure) {
-		Handle(Standard_Failure) e = Standard_Failure::Caught();
-		wxMessageBox(wxString(_("Error with cut operation")) + _T(": ") + Ctt(e->GetMessageString()));
+	catch (const Standard_Failure& e)
+    {
+		wxMessageBox(wxString(_("Error with cut operation")) + _T(": ") + Ctt(e.GetMessageString()));
 		return false;
 	}
 }
@@ -445,9 +445,9 @@ static HeeksObj* Fuse(HeeksObj* s1, HeeksObj* s2){
 		wxGetApp().DeleteUndoably(s2);
 		return new_object;
 	}
-	catch (Standard_Failure) {
-		Handle(Standard_Failure) e = Standard_Failure::Caught();
-		wxMessageBox(wxString(_("Error with fuse operation")) + _T(": ") + Ctt(e->GetMessageString()));
+	catch (const Standard_Failure& e)
+    {
+		wxMessageBox(wxString(_("Error with fuse operation")) + _T(": ") + Ctt(e.GetMessageString()));
 		return NULL;
 	}
 }
@@ -470,9 +470,9 @@ static HeeksObj* Common(HeeksObj* s1, HeeksObj* s2){
 		wxGetApp().DeleteUndoably(s2);
 		return new_object;
 	}
-	catch (Standard_Failure) {
-		Handle(Standard_Failure) e = Standard_Failure::Caught();
-		wxMessageBox(wxString(_("Error with common operation")) + _T(": ") + Ctt(e->GetMessageString()));
+	catch (const Standard_Failure& e)
+    {
+		wxMessageBox(wxString(_("Error with common operation")) + _T(": ") + Ctt(e.GetMessageString()));
 		return NULL;
 	}
 }
@@ -755,9 +755,9 @@ void CShape::FilletOrChamferEdges(std::list<HeeksObj*> &list, double radius, boo
 				wxGetApp().DeleteUndoably(solid);
 			}
 		}
-		catch (Standard_Failure) {
-			Handle(Standard_Failure) e = Standard_Failure::Caught();
-			wxMessageBox(wxString(_("Error making fillet")) + _T(": ") + Ctt(e->GetMessageString()));
+		catch (const Standard_Failure& e)
+        {
+			wxMessageBox(wxString(_("Error making fillet")) + _T(": ") + Ctt(e.GetMessageString()));
 		}
 		catch(...)
 		{

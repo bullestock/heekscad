@@ -579,7 +579,7 @@ bool HeeksCADapp::InputLength(const wxChar* prompt, const wxChar* value_name, do
 		HDialog dlg(m_frame);
 		wxBoxSizer *sizerMain = new wxBoxSizer(wxVERTICAL);
 		wxStaticText *static_label = new wxStaticText(&dlg, wxID_ANY, prompt);
-		sizerMain->Add( static_label, 0, wxALL | wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL, dlg.control_border );
+		sizerMain->Add( static_label, 0, wxALL | wxALIGN_LEFT, dlg.control_border );
 		CLengthCtrl* value_control = new CLengthCtrl(&dlg);
 		dlg.AddLabelAndControl(sizerMain, value_name, value_control);
 		dlg.MakeOkAndCancel(wxHORIZONTAL).AddToSizer(sizerMain);

@@ -144,8 +144,8 @@ HeeksObj* CreatePipeFromProfile(const TopoDS_Wire &spine, std::list<TopoDS_Shape
 			HeeksObj* new_object = CShape::MakeObject(shape, _("Pipe"), SOLID_TYPE_UNKNOWN, wxGetApp().current_color, 1.0f);
 			if(new_object)pipe_shapes.push_back(new_object);
 		}
-		catch (Standard_Failure) {
-			Handle(Standard_Failure) e = Standard_Failure::Caught();
+		catch (const Standard_Failure& e)
+        {
 			wxMessageBox(wxString(_("Error making pipe")) + _T(": ") + Ctt(e->GetMessageString()));
 		}
 	}
@@ -239,44 +239,44 @@ HeeksObj* CreateRuledFromSketches(std::list<HeeksObj*> list, bool make_solid)
 
 bool InputExtrusionHeight(double &value, bool *extrude_makes_a_solid, double *taper_angle)
 {
-		HDialog dlg(wxGetApp().m_frame);
-		wxBoxSizer *sizerMain = new wxBoxSizer(wxVERTICAL);
-		wxStaticText *static_label = new wxStaticText(&dlg, wxID_ANY, _("Make extrusion"));
-		sizerMain->Add( static_label, 0, wxALL | wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL, dlg.control_border );
+    HDialog dlg(wxGetApp().m_frame);
+    wxBoxSizer *sizerMain = new wxBoxSizer(wxVERTICAL);
+    wxStaticText *static_label = new wxStaticText(&dlg, wxID_ANY, _("Make extrusion"));
+    sizerMain->Add( static_label, 0, wxALL | wxALIGN_LEFT, dlg.control_border );
 
-		CLengthCtrl* value_control = new CLengthCtrl(&dlg);
-		value_control->SetValue(value);
-		dlg.AddLabelAndControl(sizerMain, _("height"), value_control);
+    CLengthCtrl* value_control = new CLengthCtrl(&dlg);
+    value_control->SetValue(value);
+    dlg.AddLabelAndControl(sizerMain, _("height"), value_control);
 
-		wxCheckBox* solid_check_box = NULL;
-		if(extrude_makes_a_solid)
-		{
-			solid_check_box = new wxCheckBox(&dlg, wxID_ANY, _("Extrude makes a solid"));
-			solid_check_box->SetValue(*extrude_makes_a_solid);
-			sizerMain->Add( solid_check_box, 0, wxALL | wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL, dlg.control_border );
-		}
+    wxCheckBox* solid_check_box = NULL;
+    if(extrude_makes_a_solid)
+    {
+        solid_check_box = new wxCheckBox(&dlg, wxID_ANY, _("Extrude makes a solid"));
+        solid_check_box->SetValue(*extrude_makes_a_solid);
+        sizerMain->Add( solid_check_box, 0, wxALL | wxALIGN_LEFT, dlg.control_border );
+    }
 
-		CDoubleCtrl* taper_angle_control = NULL;
-		if(taper_angle)
-		{
-			taper_angle_control = new CDoubleCtrl(&dlg);
-			taper_angle_control->SetValue(*taper_angle);
-			dlg.AddLabelAndControl(sizerMain, _("taper outward angle"), taper_angle_control);
-		}
+    CDoubleCtrl* taper_angle_control = NULL;
+    if(taper_angle)
+    {
+        taper_angle_control = new CDoubleCtrl(&dlg);
+        taper_angle_control->SetValue(*taper_angle);
+        dlg.AddLabelAndControl(sizerMain, _("taper outward angle"), taper_angle_control);
+    }
 
-		dlg.MakeOkAndCancel(wxHORIZONTAL).AddToSizer(sizerMain);
-		dlg.SetSizer( sizerMain );
-		sizerMain->SetSizeHints(&dlg);
-		sizerMain->Fit(&dlg);
-		value_control->SetFocus();
-		if(dlg.ShowModal() == wxID_OK)
-		{
-			value = value_control->GetValue();
-			if(extrude_makes_a_solid)*extrude_makes_a_solid = solid_check_box->GetValue();
-			if(taper_angle)*taper_angle = taper_angle_control->GetValue();
-			return true;
-		}
-		return false;
+    dlg.MakeOkAndCancel(wxHORIZONTAL).AddToSizer(sizerMain);
+    dlg.SetSizer( sizerMain );
+    sizerMain->SetSizeHints(&dlg);
+    sizerMain->Fit(&dlg);
+    value_control->SetFocus();
+    if(dlg.ShowModal() == wxID_OK)
+    {
+        value = value_control->GetValue();
+        if(extrude_makes_a_solid)*extrude_makes_a_solid = solid_check_box->GetValue();
+        if(taper_angle)*taper_angle = taper_angle_control->GetValue();
+        return true;
+    }
+    return false;
 }
 
 void PickCreateExtrusion()
@@ -386,9 +386,9 @@ bool CreateRuledSurface(const std::list<TopoDS_Wire> &wire_list, TopoDS_Shape& s
 			generator.Build();
 			shape = generator.Shape();
 		}
-		catch (Standard_Failure) {
-			Handle(Standard_Failure) e = Standard_Failure::Caught();
-			wxMessageBox(wxString(_("Error making ruled solid")) + _T(": ") + Ctt(e->GetMessageString()));
+		catch (const Standard_Failure& e)
+        {
+			wxMessageBox(wxString(_("Error making ruled solid")) + _T(": ") + Ctt(e.GetMessageString()));
 			return false;
 		}
 		catch(...)
@@ -444,9 +444,9 @@ void CreateExtrusions(const std::list<TopoDS_Shape> &faces_or_wires, std::list<T
 			}
 		}
 	}
-	catch (Standard_Failure) {
-		Handle(Standard_Failure) e = Standard_Failure::Caught();
-		wxMessageBox(wxString(_("Error making extruded solid")) + _T(": ") + Ctt(e->GetMessageString()));
+	catch (const Standard_Failure& e)
+    {
+		wxMessageBox(wxString(_("Error making extruded solid")) + _T(": ") + Ctt(e.GetMessageString()));
 	}
 	catch(...)
 	{
@@ -475,9 +475,9 @@ void CreateRevolutions(const std::list<TopoDS_Shape> &faces_or_wires, std::list<
 			}
 		}
 	}
-	catch (Standard_Failure) {
-		Handle(Standard_Failure) e = Standard_Failure::Caught();
-		wxMessageBox(wxString(_("Error making revolved solid")) + _T(": ") + Ctt(e->GetMessageString()));
+	catch (const Standard_Failure& e)
+    {
+		wxMessageBox(wxString(_("Error making revolved solid")) + _T(": ") + Ctt(e.GetMessageString()));
 	}
 	catch(...)
 	{

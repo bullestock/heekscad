@@ -57,11 +57,10 @@ void CEdge::glCommands(bool select, bool marked, bool no_color){
 				{
 					glBegin(GL_LINE_STRIP);
 					const TColStd_Array1OfInteger& Nodes = polygon->Nodes();
-					const TColgp_Array1OfPnt& FNodes = facing->Nodes();
 					int nnn = polygon->NbNodes();
 					for (int nn = 1; nn <= nnn; nn++)
 					{
-						gp_Pnt v = FNodes(Nodes(nn));
+						gp_Pnt v = facing->Node(Nodes(nn));
 						glVertex3d(v.X(), v.Y(), v.Z());
 					}
 					glEnd();
@@ -276,9 +275,9 @@ void CEdge::Blend(double radius,  bool chamfer_not_fillet){
 			wxGetApp().DeleteUndoably(body);
 		}
 	}
-	catch (Standard_Failure) {
-		Handle_Standard_Failure e = Standard_Failure::Caught();
-		wxMessageBox(wxString(chamfer_not_fillet ?_("Error making fillet"):_("Error making fillet")) + _T(": ") + Ctt(e->GetMessageString()));
+	catch (const Standard_Failure& e)
+    {
+		wxMessageBox(wxString(chamfer_not_fillet ?_("Error making fillet"):_("Error making fillet")) + _T(": ") + Ctt(e.GetMessageString()));
 	}
 	catch(...)
 	{

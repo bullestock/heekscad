@@ -106,11 +106,14 @@ wxRIBBON_BAR_FLOW_HORIZONTAL
 	{
 		wxRibbonPanel *panel = new wxRibbonPanel(home, wxID_ANY, wxT("File"), ToolImage(_T("new")), wxDefaultPosition, wxDefaultSize);
 		wxRibbonButtonBar *toolbar = new wxRibbonButtonBar(panel);
-		if (!wxGetApp().m_no_creation_mode)AddToolBarTool(toolbar, RibbonButtonData(_("New"), ToolImage(_T("new")), _("New file"), OnNewButton));
+		if (!wxGetApp().m_no_creation_mode)
+            AddToolBarTool(toolbar, RibbonButtonData(_("New"), ToolImage(_T("new")), _("New file"), OnNewButton));
 		AddToolBarTool(toolbar, RibbonButtonData(_("Open"), ToolImage(_T("open")), _("Open file"), OnOpenButton, NULL, OnOpenDropdown));
 		AddToolBarTool(toolbar, RibbonButtonData(_("Import"), ToolImage(_T("import")), _("Import file"), OnImportButton));
-		if (!wxGetApp().m_no_creation_mode)AddToolBarTool(toolbar, RibbonButtonData(_("Save"), ToolImage(_T("save")), _("Save file"), OnSaveButton, OnUpdateSave));
-		if (!wxGetApp().m_no_creation_mode)AddToolBarTool(toolbar, RibbonButtonData(_("Save As"), ToolImage(_T("saveas")), _("Save file with given name"), OnSaveAsButton, OnUpdateSave));
+		if (!wxGetApp().m_no_creation_mode)
+            AddToolBarTool(toolbar, RibbonButtonData(_("Save"), ToolImage(_T("save")), _("Save file"), OnSaveButton, OnUpdateSave));
+		if (!wxGetApp().m_no_creation_mode)
+            AddToolBarTool(toolbar, RibbonButtonData(_("Save As"), ToolImage(_T("saveas")), _("Save file with given name"), OnSaveAsButton, OnUpdateSave));
 		AddToolBarTool(toolbar, RibbonButtonData(_("Plugins"), ToolImage(_T("plugin")), _("Edit plugins"), OnPlugins));
 		AddToolBarTool(toolbar, RibbonButtonData(_("Restore Defaults"), ToolImage(_T("restore")), _("Restore all defaults"), OnResetDefaultsButton));
 		AddToolBarTool(toolbar, RibbonButtonData(_("About"), ToolImage(_T("about")), _("Software Information"), OnAbout));

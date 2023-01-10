@@ -1230,8 +1230,7 @@ bool RS274X::AggregateFaces( const TopoDS_Face lhs, const TopoDS_Face rhs, TopoD
             }
         } // End if - then
     }
-    catch (Standard_Failure) {
-        Handle(Standard_Failure) e = Standard_Failure::Caught();
+    catch (const Standard_Failure& e) {
         return(l_bFailure);
     }
 

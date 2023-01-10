@@ -4069,10 +4069,11 @@ int HeeksCADapp::CheckForModifiedDoc()
 	{
 		wxString str = wxString(_("Would you like to save changes?"));
 		int res = wxMessageBox(str, wxMessageBoxCaptionStr, wxCANCEL|wxYES_NO|wxCENTRE);
-		if(res == wxCANCEL || res == wxNO) return res;
+		if(res == wxCANCEL || res == wxNO)
+            return res;
 		if(res == wxYES)
 		{
-			return SaveProject()?wxOK:wxCANCEL;
+			return SaveProject() ? wxOK : wxCANCEL;
 		}
 	}
 	return wxOK;

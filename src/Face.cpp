@@ -647,9 +647,9 @@ bool CFace::GetNurbSurfaceParams(CNurbSurfaceParams* params)
 		}
 
 	}
-	catch(Standard_Failure) {
-		Handle(Standard_Failure) e = Standard_Failure::Caught();
-		wxMessageBox(wxString(_("Error in CFace::GetNurbSurfaceParams")) + _T(": ") + Ctt(e->GetMessageString()));
+	catch (const Standard_Failure& e)
+    {
+		wxMessageBox(wxString(_("Error in CFace::GetNurbSurfaceParams")) + _T(": ") + Ctt(e.GetMessageString()));
 		return false;
 	}
 

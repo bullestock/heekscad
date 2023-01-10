@@ -271,8 +271,8 @@ HeeksObj *CSketch::Parallel( const double distance )
                 return(sketch);
             }
         }
-		catch (Standard_Failure) {
-			Handle(Standard_Failure) e = Standard_Failure::Caught();
+		catch (const Standard_Failure& e)
+        {
 			// wxMessageBox(wxString(_("Error making offset")) + _T(": ") + Ctt(e->GetMessageString()));
 			return(NULL);
 		}

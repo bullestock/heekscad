@@ -55,8 +55,8 @@ public:
 			wxGetApp().Add(new_object, NULL);
 			wxGetApp().Remove(m_wire);
 		}
-		catch (Standard_Failure) {
-			Handle(Standard_Failure) e = Standard_Failure::Caught();
+		catch (const Standard_Failure& e)
+        {
 			wxMessageBox(wxString(_("Error making offset")) + _T(": ") + Ctt(e->GetMessageString()));
 		}
 

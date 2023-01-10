@@ -1687,7 +1687,7 @@ void CHeeksFrame::MakeMenus()
 	AddMenuItem(file_menu, _("Save\tCtrl+S"), ToolImage(_T("save")), OnSaveButton, OnUpdateSave);
 	AddMenuItem(file_menu, _("Save As..."), ToolImage(_T("saveas")), OnSaveAsButton);
 	file_menu->AppendSeparator();
-	AddMenuItem(file_menu, _("Import..."), ToolImage(_T("import")), OnImportButton);
+	AddMenuItem(file_menu, _("Import...\tCtrl+I"), ToolImage(_T("import")), OnImportButton);
 	file_menu->AppendSeparator();
 	AddMenuItem(file_menu, _("Print...\tCtrl+P"), ToolImage(_T("print")), OnPrint);
 	AddMenuItem(file_menu, _("Page Setup..."), ToolImage(_T("psetup")), OnPageSetup);
@@ -1839,9 +1839,11 @@ void CHeeksFrame::AddToolBars()
 
 	if(!m_main_toolbar_removed)
 	{
-		if(!wxGetApp().m_no_creation_mode)AddToolBarTool(m_toolBar, _T("New"), ToolImage(_T("new")), _("New file"), OnNewButton);
+		if(!wxGetApp().m_no_creation_mode)
+            AddToolBarTool(m_toolBar, _T("New"), ToolImage(_T("new")), _("New file"), OnNewButton);
 		AddToolBarTool(m_toolBar, _T("Open"), ToolImage(_T("open")), _("Open file"), OnOpenButton);
-		if(!wxGetApp().m_no_creation_mode)AddToolBarTool(m_toolBar, _T("Save"), ToolImage(_T("save")), _("Save file"), OnSaveButton, OnUpdateSave);
+		if(!wxGetApp().m_no_creation_mode)
+            AddToolBarTool(m_toolBar, _T("Save"), ToolImage(_T("save")), _("Save file"), OnSaveButton, OnUpdateSave);
 		m_toolBar->AddSeparator();
 		if(!wxGetApp().m_no_creation_mode)
 		{

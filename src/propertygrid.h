@@ -1996,8 +1996,6 @@ protected:
     bool SetPropertyPriority( wxPGProperty* p, int priority );
 
 private:
-    static wxArrayInt m_empty_int_array;
-    
     bool ButtonTriggerKeyTest( wxKeyEvent &event );
 
 #endif // DOXYGEN_SHOULD_SKIP_THIS
