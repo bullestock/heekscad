@@ -2,7 +2,7 @@
 
 This file describes how to build and install HeeksCAD under Unix systems.
 
-About this fork (github.com/bullestock/heekscad.git): I have built it successfully on Arch Linux as of August 2022, and the program is able to run. However, a number of wxWindows exceptions occur when using it.
+About this fork (github.com/bullestock/heekscad.git): I have built it successfully on Arch Linux using OpenCascade 7.6.3 as of January 2023, and the program is able to run. However, a number of wxWindows exceptions occur when using it.
 
 ## Requirements
 
