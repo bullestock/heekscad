@@ -299,7 +299,9 @@ public:
 		{
 			try
 			{
-				TopoDS_Shape new_shape = BRepOffsetAPI_MakeOffsetShape(shape_for_tools->Shape(), offset_value, wxGetApp().m_geom_tol);
+                BRepOffsetAPI_MakeOffsetShape mos;
+                mos.PerformByJoin(shape_for_tools->Shape(), offset_value, wxGetApp().m_geom_tol);
+				TopoDS_Shape new_shape = mos.Shape();
 
 #ifdef TESTNEWSHAPE
 				//This will end up throwing 90% of the exceptions caused by a bad offset
@@ -436,8 +438,10 @@ static HeeksObj* Fuse(HeeksObj* s1, HeeksObj* s2){
 	{
 		TopoDS_Shape sh1, sh2;
 		TopoDS_Shape new_shape;
-		if(wxGetApp().useOldFuse)new_shape = BRepAlgo_Fuse(((CShape*)s1)->Shape(), ((CShape*)s2)->Shape());
-		else new_shape = BRepAlgoAPI_Fuse(((CShape*)s1)->Shape(), ((CShape*)s2)->Shape());
+		if (wxGetApp().useOldFuse)
+            new_shape = BRepAlgoAPI_Fuse(((CShape*)s1)->Shape(), ((CShape*)s2)->Shape());
+		else
+            new_shape = BRepAlgoAPI_Fuse(((CShape*)s1)->Shape(), ((CShape*)s2)->Shape());
 
 		HeeksObj* new_object = CShape::MakeObject(new_shape, ((CShape*)s1)->m_title_made_from_id ? wxString(_("Result of Fuse Operation")).c_str() : ((CShape*)s1)->m_title.c_str(), SOLID_TYPE_UNKNOWN, ((CShape*)s1)->m_color, ((CShape*)s1)->GetOpacity());
 		wxGetApp().AddUndoably(new_object, NULL, NULL);

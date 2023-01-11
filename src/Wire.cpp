@@ -57,7 +57,7 @@ public:
 		}
 		catch (const Standard_Failure& e)
         {
-			wxMessageBox(wxString(_("Error making offset")) + _T(": ") + Ctt(e->GetMessageString()));
+			wxMessageBox(wxString(_("Error making offset")) + _T(": ") + Ctt(e.GetMessageString()));
 		}
 
 	}

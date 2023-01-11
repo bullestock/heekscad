@@ -164,9 +164,8 @@ void DrawFace(TopoDS_Face face,void(*callbackfunc)(const double* x, const double
 	else
 	{
 		Poly_Connect pc(facing);	
-		const TColgp_Array1OfPnt& Nodes = facing->Nodes();
 		const Poly_Array1OfTriangle& triangles = facing->Triangles();
-		TColgp_Array1OfDir myNormal(Nodes.Lower(), Nodes.Upper());
+		TColgp_Array1OfDir myNormal(1, facing->NbNodes());
 
 		SST.Normal(face, pc, myNormal);
 
@@ -180,11 +179,11 @@ void DrawFace(TopoDS_Face face,void(*callbackfunc)(const double* x, const double
 			else 
 				triangles(nt).Get(n1,n2,n3);						// le triangle est n1,n2,n3
 
-			if (TriangleIsValid (Nodes(n1),Nodes(n2),Nodes(n3)) )
+			if (TriangleIsValid(facing->Node(n1), facing->Node(n2), facing->Node(n3)))
 			{
-				gp_Pnt v1 = Nodes(n1).Transformed(tr);
-				gp_Pnt v2 = Nodes(n2).Transformed(tr);
-				gp_Pnt v3 = Nodes(n3).Transformed(tr);
+				gp_Pnt v1 = facing->Node(n1).Transformed(tr);
+				gp_Pnt v2 = facing->Node(n2).Transformed(tr);
+				gp_Pnt v3 = facing->Node(n3).Transformed(tr);
 
 				x[0] = v1.X();
 				x[1] = v1.Y();

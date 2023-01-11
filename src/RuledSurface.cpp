@@ -146,7 +146,7 @@ HeeksObj* CreatePipeFromProfile(const TopoDS_Wire &spine, std::list<TopoDS_Shape
 		}
 		catch (const Standard_Failure& e)
         {
-			wxMessageBox(wxString(_("Error making pipe")) + _T(": ") + Ctt(e->GetMessageString()));
+			wxMessageBox(wxString(_("Error making pipe")) + _T(": ") + Ctt(e.GetMessageString()));
 		}
 	}
 	if(pipe_shapes.size() > 0)

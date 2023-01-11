@@ -1192,7 +1192,7 @@ bool RS274X::AggregateFaces( const TopoDS_Face lhs, const TopoDS_Face rhs, TopoD
     TopoDS_Shape rhs_shape = BRepPrimAPI_MakePrism(rhs, gp_Vec(0,0,1));
 
     try {
-        BRepAlgo_Fuse fused( lhs_shape, rhs_shape );
+        BRepAlgoAPI_Fuse fused( lhs_shape, rhs_shape );
         fused.Build();
         if (fused.IsDone())
         {
